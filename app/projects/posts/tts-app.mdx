@@ -59,3 +59,68 @@ python webui.py
 The web UI will be available at `http://localhost:7860` and includes:
 - **Create Job Tab:** A simplified interface to create new TTS jobs from text or uploaded files.
 - **Job Dashboard Tab:** View the status of all jobs (`completed`, `processing`, `failed`), see when they were created, and refresh the list.
+
+## Command-Line Usage
+
+The job-based system is powerful and easy to use. Here’s how to work with it.
+
+### Creating a Job
+
+To start a new conversion, you create a job. For example, to convert a PDF book:
+
+```bash
+python main.py --pdf "path/to/your/book.pdf" --job-name "my-book-job" --num-workers 4 --merge_output
+```
+
+- `--pdf "path/to/your/book.pdf"`: Specifies the input file.
+- `--job-name "my-book-job"`: Gives the job a unique name for tracking.
+- `--num-workers 4`: The number of parallel processes to use.
+- `--merge_output`: Automatically stitch the final audio chunks into a single WAV file.
+
+### Monitoring a Job
+
+While a job is running, you can monitor its progress in a separate terminal:
+
+```bash
+python main.py --monitor --job-name "my-book-job"
+```
+
+### Resuming a Failed Job
+
+If a job is interrupted, you can easily resume it:
+
+```bash
+python main.py --resume --job-name "my-book-job" --num-workers 4
+```
+
+### Engine-Specific Options
+
+You can choose between the `kokoro` and `chatterbox` engines and customize their settings.
+
+#### Kokoro Engine Options
+
+- `--lang "code"`: Language code (e.g., 'en' for English).
+- `--voice "name"`: Voice model name.
+- `--speed <float>`: Speech speed multiplier.
+
+**Example:**
+
+```bash
+python main.py --text "Hello world" --engine kokoro --lang "en" --voice "en_us_001" --speed 1.2
+```
+
+#### Chatterbox Engine Options
+
+- `--cb_audio_prompt <path.wav>`: Path to a reference audio file to guide the voice.
+- `--cb_exaggeration <float>`: Emotion/intensity control.
+- `--cb_cfg_weight <float>`: Guidance weight.
+- `--cb_temperature <float>`: Sampling temperature.
+- `--cb_top_p <float>`: Nucleus sampling `p` value.
+- `--cb_min_p <float>`: Minimum `p` value for nucleus sampling.
+- `--cb_repetition_penalty <float>`: Penalty for repeating tokens.
+
+**Example:**
+
+```bash
+python main.py --text "This is an expressive test." --engine chatterbox --cb_audio_prompt "path/to/prompt.wav" --cb_exaggeration 0.7
+```
