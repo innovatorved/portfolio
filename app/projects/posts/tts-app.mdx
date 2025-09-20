@@ -1,0 +1,126 @@
+---
+title: 'TTS App: Scalable and Reliable Text-to-Speech Converter'
+publishedAt: '2024-07-27'
+summary: 'A scalable and reliable text-to-speech converter with a job-based architecture, parallel processing, and a web UI.'
+image: '/static/images/tts-app-screenshot.png'
+---
+
+This application converts text, PDFs, or conversations into speech using Kokoro-TTS or Chatterbox TTS engines. It is designed for scalability and reliability, capable of processing very large files like entire books, with progress tracking and job resumption capabilities.
+
+![TTS App Screenshot](/static/images/tts-app-screenshot.png)
+
+## Key Features
+
+- **Scalable & Reliable:** Built with a job-based architecture to handle large files. It can process an entire book without memory issues.
+- **Parallel Processing:** Utilizes multiple CPU processes to convert text to speech, significantly speeding up large jobs.
+- **Job-Based System:** Every conversion is a "job" tracked in a local SQLite database. This means the state is saved, and you can manage multiple conversions.
+- **Progress Tracking:** Monitor the real-time progress of any running job using the command line.
+- **Fault-Tolerant:** Resume failed or interrupted jobs exactly from where they left off. No more lost work!
+- **Web UI with Job Dashboard:** A modern web interface for easily creating jobs and a dashboard to view the status of all past and present jobs.
+- **Multiple Input Formats:** Convert direct text, PDF documents, or plain text files.
+- **Choice of Engines:** Use Kokoro (multilingual) for versatility or Chatterbox (English) for high-quality, expressive speech.
+- **Customizable Output:** Control language, voice, and speed. Final audio can be automatically merged into a single file.
+
+## Setup
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/innovatorved/tts-app.git
+    cd tts-app
+    ```
+
+2.  **Create and activate a virtual environment (recommended):**
+    ```bash
+    python -m venv venv
+    source venv/bin/activate
+    # On Windows: venv\Scripts\activate
+    ```
+
+3.  **Install build tools and dependencies:**
+    First, ensure your `pip`, `setuptools`, and `wheel` are up to date, which can prevent common installation issues:
+    ```bash
+    pip install --upgrade pip setuptools wheel
+    ```
+    Then, install the application's dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+## Web UI
+
+The application includes a modern web interface built with Gradio.
+
+### Running the Web UI
+
+```bash
+python webui.py
+```
+
+The web UI will be available at `http://localhost:7860` and includes:
+- **Create Job Tab:** A simplified interface to create new TTS jobs from text or uploaded files.
+- **Job Dashboard Tab:** View the status of all jobs (`completed`, `processing`, `failed`), see when they were created, and refresh the list.
+
+## Command-Line Usage
+
+The job-based system is powerful and easy to use. Here’s how to work with it.
+
+### Creating a Job
+
+To start a new conversion, you create a job. For example, to convert a PDF book:
+
+```bash
+python main.py --pdf "path/to/your/book.pdf" --job-name "my-book-job" --num-workers 4 --merge_output
+```
+
+- `--pdf "path/to/your/book.pdf"`: Specifies the input file.
+- `--job-name "my-book-job"`: Gives the job a unique name for tracking.
+- `--num-workers 4`: The number of parallel processes to use.
+- `--merge_output`: Automatically stitch the final audio chunks into a single WAV file.
+
+### Monitoring a Job
+
+While a job is running, you can monitor its progress in a separate terminal:
+
+```bash
+python main.py --monitor --job-name "my-book-job"
+```
+
+### Resuming a Failed Job
+
+If a job is interrupted, you can easily resume it:
+
+```bash
+python main.py --resume --job-name "my-book-job" --num-workers 4
+```
+
+### Engine-Specific Options
+
+You can choose between the `kokoro` and `chatterbox` engines and customize their settings.
+
+#### Kokoro Engine Options
+
+- `--lang "code"`: Language code (e.g., 'en' for English).
+- `--voice "name"`: Voice model name.
+- `--speed <float>`: Speech speed multiplier.
+
+**Example:**
+
+```bash
+python main.py --text "Hello world" --engine kokoro --lang "en" --voice "en_us_001" --speed 1.2
+```
+
+#### Chatterbox Engine Options
+
+- `--cb_audio_prompt <path.wav>`: Path to a reference audio file to guide the voice.
+- `--cb_exaggeration <float>`: Emotion/intensity control.
+- `--cb_cfg_weight <float>`: Guidance weight.
+- `--cb_temperature <float>`: Sampling temperature.
+- `--cb_top_p <float>`: Nucleus sampling `p` value.
+- `--cb_min_p <float>`: Minimum `p` value for nucleus sampling.
+- `--cb_repetition_penalty <float>`: Penalty for repeating tokens.
+
+**Example:**
+
+```bash
+python main.py --text "This is an expressive test." --engine chatterbox --cb_audio_prompt "path/to/prompt.wav" --cb_exaggeration 0.7
+```
