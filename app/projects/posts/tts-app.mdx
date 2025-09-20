@@ -1,0 +1,61 @@
+---
+title: 'TTS App: Scalable and Reliable Text-to-Speech Converter'
+publishedAt: '2024-07-27'
+summary: 'A scalable and reliable text-to-speech converter with a job-based architecture, parallel processing, and a web UI.'
+image: '/static/images/tts-app-screenshot.png'
+---
+
+This application converts text, PDFs, or conversations into speech using Kokoro-TTS or Chatterbox TTS engines. It is designed for scalability and reliability, capable of processing very large files like entire books, with progress tracking and job resumption capabilities.
+
+![TTS App Screenshot](/static/images/tts-app-screenshot.png)
+
+## Key Features
+
+- **Scalable & Reliable:** Built with a job-based architecture to handle large files. It can process an entire book without memory issues.
+- **Parallel Processing:** Utilizes multiple CPU processes to convert text to speech, significantly speeding up large jobs.
+- **Job-Based System:** Every conversion is a "job" tracked in a local SQLite database. This means the state is saved, and you can manage multiple conversions.
+- **Progress Tracking:** Monitor the real-time progress of any running job using the command line.
+- **Fault-Tolerant:** Resume failed or interrupted jobs exactly from where they left off. No more lost work!
+- **Web UI with Job Dashboard:** A modern web interface for easily creating jobs and a dashboard to view the status of all past and present jobs.
+- **Multiple Input Formats:** Convert direct text, PDF documents, or plain text files.
+- **Choice of Engines:** Use Kokoro (multilingual) for versatility or Chatterbox (English) for high-quality, expressive speech.
+- **Customizable Output:** Control language, voice, and speed. Final audio can be automatically merged into a single file.
+
+## Setup
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/innovatorved/tts-app.git
+    cd tts-app
+    ```
+
+2.  **Create and activate a virtual environment (recommended):**
+    ```bash
+    python -m venv venv
+    source venv/bin/activate
+    # On Windows: venv\Scripts\activate
+    ```
+
+3.  **Install build tools and dependencies:**
+    First, ensure your `pip`, `setuptools`, and `wheel` are up to date, which can prevent common installation issues:
+    ```bash
+    pip install --upgrade pip setuptools wheel
+    ```
+    Then, install the application's dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+## Web UI
+
+The application includes a modern web interface built with Gradio.
+
+### Running the Web UI
+
+```bash
+python webui.py
+```
+
+The web UI will be available at `http://localhost:7860` and includes:
+- **Create Job Tab:** A simplified interface to create new TTS jobs from text or uploaded files.
+- **Job Dashboard Tab:** View the status of all jobs (`completed`, `processing`, `failed`), see when they were created, and refresh the list.
