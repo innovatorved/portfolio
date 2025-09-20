@@ -1,16 +1,8 @@
 import { BlogPosts } from 'app/components/posts';
-import Image from 'next/image';
 
 export default function Page() {
   return (
     <section>
-      <Image
-        src="/avatar.jpg"
-        alt="An image of Ved Gupta"
-        width={100}
-        height={100}
-        className="rounded-full mb-4"
-      />
       <h1 className="mb-8 text-2xl font-semibold tracking-tighter">
         Ved Prakash Gupta
       </h1>
