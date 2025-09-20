@@ -1,19 +1,30 @@
-import { BlogPosts } from 'app/components/posts'
+import { BlogPosts } from 'app/components/posts';
+import Image from 'next/image';
 
 export default function Page() {
   return (
     <section>
+      <Image
+        src="/avatar.jpg"
+        alt="An image of Ved Gupta"
+        width={100}
+        height={100}
+        className="rounded-full mb-4"
+      />
       <h1 className="mb-8 text-2xl font-semibold tracking-tighter">
-        My Portfolio
+        Ved Prakash Gupta
       </h1>
       <p className="mb-4">
-        {`I'm a Vim enthusiast and tab advocate, finding unmatched efficiency in
-        Vim's keystroke commands and tabs' flexibility for personal viewing
-        preferences. This extends to my support for static typing, where its
-        early error detection ensures cleaner code, and my preference for dark
-        mode, which eases long coding sessions by reducing eye strain.`}
+        Student and Tech enthusiast Developer
+      </p>
+      <p className="mb-4">
+        {`It's my passion to write code and solve problems as a Software
+        Developer. Love to help Developers. Always Open for Contributions`}
       </p>
       <div className="my-8">
+        <h2 className="mb-8 text-xl font-semibold tracking-tighter">
+          Featured Posts
+        </h2>
         <BlogPosts />
       </div>
     </section>
