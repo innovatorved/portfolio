@@ -10,6 +10,9 @@ const navItems = {
   '/projects': {
     name: 'Projects',
   },
+  '/certifications': {
+    name: 'Certifications',
+  },
 }
 
 export function Navbar() {
