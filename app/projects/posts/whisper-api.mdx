@@ -1,0 +1,73 @@
+---
+title: 'Whisper API: Self-Hostable Speech to Text Transcription'
+publishedAt: '2024-08-15'
+summary: 'An open-source, self-hostable API for speech-to-text transcription using a finetuned Whisper ASR model with user-level access support.'
+---
+
+This open source project provides a self-hostable API for speech to text transcription using a finetuned Whisper ASR model. The API allows you to easily convert audio files to text through HTTP requests. Ideal for adding speech recognition capabilities to your applications.
+
+## Key Features
+
+- **Accurate Speech Recognition:** Uses a finetuned Whisper model for high-quality speech-to-text conversion.
+- **Simple HTTP API:** Easily transcribe audio files through simple HTTP requests.
+- **User-Level Access:** Manage usage with API keys for different users.
+- **Self-Hostable:** Deploy your own speech transcription service for privacy and control.
+- **Optimized for Speed:** Utilizes a quantized model for fast and efficient inference.
+- **Open Source:** Fully transparent and customizable to fit your needs.
+
+## Installation
+
+To install the necessary dependencies, run the following command:
+```bash
+# Install ffmpeg for Audio Processing
+sudo apt install ffmpeg
+
+# Install Python Package
+pip install -r requirements.txt
+```
+
+## Running the Project
+
+To run the project, use the following command:
+```bash
+uvicorn app.main:app --reload
+```
+
+## Get Your Token
+
+To get your token, use the following command:
+```bash
+curl -X 'POST' \
+  'https://innovatorved-whisper-api.hf.space/api/v1/users/get_token' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "email": "example@domain.com",
+  "password": "password"
+}'
+```
+
+## Example to Transcribe a File
+
+To upload a file and transcribe it, use the following command: Note: The token is a dummy token and will not work. Please use the token provided by the admin.
+
+Here are the available models:
+- `tiny.en`
+- `tiny.en.q5`
+- `base.en.q5`
+
+```bash
+# Modify the token and audioFilePath
+curl -X 'POST' \
+  'http://localhost:8000/api/v1/transcribe/?model=tiny.en.q5' \
+  -H 'accept: application/json' \
+  -H 'Authentication: e9b7658aa93342c492fa64153849c68b8md9uBmaqCwKq4VcgkuBD0G54FmsE8JT' \
+  -H 'Content-Type: multipart/form-data' \
+  -F 'file=@audioFilePath.wav;type=audio/wav'
+```
+
+## Reference & Credits
+
+- [https://github.com/openai/whisper](https://github.com/openai/whisper)
+- [https://openai.com/blog/whisper/](https://openai.com/blog/whisper/)
+- [https://github.com/ggerganov/whisper.cpp](https://github.com/ggerganov/whisper.cpp)
