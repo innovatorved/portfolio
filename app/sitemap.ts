@@ -1,7 +1,7 @@
 import { getBlogPosts } from 'app/blog/utils'
 import {getProjects} from 'app/projects/utils'
 
-export const baseUrl = 'https://portfolio.vedgupta.in'
+export const baseUrl = 'https://vedgupta.in'
 
 export default async function sitemap() {
   let blogs = getBlogPosts().map((post) => ({
