@@ -13,7 +13,7 @@ This is a porfolio site template complete with a blog. Includes:
 
 ## Demo
 
-https://portfolio.vedgupta.in
+https://vedgupta.in
 
 ## How to Use
 
