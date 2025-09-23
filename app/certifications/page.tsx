@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Certifications',
-  description: 'Professional certifications and verified credentials of Ved Gupta.',
+  description: 'Professional certifications and verified credentials of Ved Gupta (innovatorved | vedgupta).',
 }
 
 export default function CertificationsPage() {

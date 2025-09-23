@@ -16,10 +16,22 @@ export const metadata: Metadata = {
     default: 'Ved Gupta Portfolio',
     template: '%s | Ved Gupta Portfolio | innovatorved',
   },
-  description: 'Full Stack Developer | React Developer | Generative AI Developer | Azure Cloud Certified | Google Cloud Certified | Python Developer',
+  description: 'Full Stack Developer | React Developer | Generative AI Developer | Azure Cloud Certified | Google Cloud Certified | Python Developer | innovatorved | vedgupta',
+  keywords: [
+    'Ved Gupta',
+    'innovatorved',
+    'vedgupta',
+    'Full Stack Developer',
+    'Cloud Engineer',
+    'Azure',
+    'Google Cloud',
+    'Generative AI',
+    'React',
+    'Next.js'
+  ],
   openGraph: {
     title: 'Ved Gupta Portfolio',
-    description: 'Full Stack Developer | React Developer | Generative AI Developer | Azure Cloud Certified | Google Cloud Certified | Python Developer',
+    description: 'Full Stack Developer | React Developer | Generative AI Developer | Azure Cloud Certified | Google Cloud Certified | Python Developer | innovatorved | vedgupta',
     url: baseUrl,
     siteName: 'Ved Gupta Portfolio | innovatorved',
     locale: 'en_US',
@@ -36,7 +48,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Ved Gupta Portfolio',
-    description: 'This is my portfolio.',
+    description: 'Portfolio of Ved Gupta (innovatorved | vedgupta) - Full Stack / Cloud / AI Developer.',
     creator: '@innovatorved',
     images: [`${baseUrl}/static/images/innovatorved-banner-2.png`],
   },
@@ -108,6 +120,10 @@ export default function RootLayout({
     >
       <GoogleTagManager gtmId="GTM-NR39J8J" />
       <body className="antialiased max-w-xl mx-4 mt-8 lg:mx-auto">
+        {/* Hidden keyword enrichment for consistent branding */}
+        <span className="hidden" aria-hidden>
+          innovatorved vedgupta Ved Gupta Portfolio Full Stack Developer Cloud Engineer Azure Google Cloud Generative AI React Next.js JavaScript TypeScript
+        </span>
         <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
           <Navbar />
           {children}

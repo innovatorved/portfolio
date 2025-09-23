@@ -2,7 +2,7 @@ import { ProjectPosts } from 'app/components/project-posts'
 
 export const metadata = {
   title: 'Projects',
-  description: 'A list of my projects.',
+  description: 'A list of projects by Ved Gupta (innovatorved | vedgupta).',
 }
 
 export default function Page() {
