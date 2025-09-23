@@ -14,14 +14,14 @@ export const metadata: Metadata = {
   },
   title: {
     default: 'Ved Gupta Portfolio',
-    template: '%s | Ved Gupta Portfolio',
+    template: '%s | Ved Gupta Portfolio | innovatorved',
   },
-  description: 'This is my portfolio.',
+  description: 'Full Stack Developer | React Developer | Generative AI Developer | Azure Cloud Certified | Google Cloud Certified | Python Developer',
   openGraph: {
     title: 'Ved Gupta Portfolio',
-    description: 'This is my portfolio.',
+    description: 'Full Stack Developer | React Developer | Generative AI Developer | Azure Cloud Certified | Google Cloud Certified | Python Developer',
     url: baseUrl,
-    siteName: 'Ved Gupta Portfolio',
+    siteName: 'Ved Gupta Portfolio | innovatorved',
     locale: 'en_US',
     type: 'website',
     images: [
