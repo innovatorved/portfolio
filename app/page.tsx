@@ -12,7 +12,7 @@ export default function Page() {
         Full Stack Developer | React Developer | Generative AI Developer | Azure Cloud Certified | Google Cloud Certified | Python Developer
       </p>
       <p className="mb-4">
-        {`I'm a Cloud Engineer with a background in web development and experience in React, Next.js, JavaScript, and TypeScript. I began as a freelancer, then transitioned to a Cloud Developer role at LTIMindtree, where I build scalable cloud solutions and explore ML/DL models. My blend of cloud engineering and development expertise helps me deliver efficient, optimized applications. Connect with me here or at vedgupta0401@gmail.com`}
+        {`Cloud Developer with a strong background in cloud solutions and web development. After starting as a freelancer, I gained expertise in React, Next.js, JavaScript, TypeScript, Docker, Kubernetes, DevOps. Currently, I work at LTIMindtree, where I focus on designing and implementing scalable cloud infrastructure. I am passionate about open-source contributions and enjoy creating projects to explore and innovate with new technologies. Connect with me here or at vedgupta0401@gmail.com`}
       </p>
       <Experience />
       <Education />
