@@ -1,0 +1,114 @@
+---
+title: 'Realtime Interview Copilot: Desktop Edition - Your AI Interview Wingman'
+publishedAt: '2025-11-08'
+summary: 'An Electron desktop app that transcribes interviews in real-time, generates intelligent responses, and stays invisible during screen sharing. Because interviews are stressful enough.'
+image: '/static/images/realtime-interview-copilot-desktop.png'
+---
+
+Ever been in an interview where a curveball question makes your brain take an unscheduled vacation? Yeah, me too. That's why I built a desktop app that acts as your AI copilot—listening, transcribing, and crafting intelligent responses in real-time.
+
+Meet **Realtime Interview Copilot: Desktop Edition**—the evolution of the [web version](/projects/realtime-interview-copilot), now as a native desktop app with some serious superpowers.
+
+<video width="100%" controls>
+  <source src="https://j9277ckk5t.ufs.sh/f/lPDuERZs4BoQEs2cuxO1V0tg7wmo8hxkr9aGyRuW3nPMH5eC" type="video/mp4" />
+  Your browser doesn't support video playback. [Watch the demo here](https://j9277ckk5t.ufs.sh/f/lPDuERZs4BoQEs2cuxO1V0tg7wmo8hxkr9aGyRuW3nPMH5eC).
+</video>
+
+## What Makes It Special?
+
+### 🔒 Screen Share Protection
+
+The killer feature: **the app window is completely hidden during screen sharing**. Share your screen on Zoom, Meet, or Teams, and it stays invisible. No awkward explanations, no scrambling—it just disappears from their view while staying functional on yours.
+
+### 🎤 Real-Time Audio Capture
+
+Captures system audio using loopback software (BlackHole for macOS, VB-Audio for Windows). The interviewer asks a question, Deepgram transcribes it instantly, and Google Generative AI crafts a context-aware response. All in seconds.
+
+![Realtime Interview Copilot Desktop Screenshot](/static/images/realtime-interview-copilot-desktop.png)
+
+### 🧠 Dual Modes
+
+**Copilot Mode**: Detailed, structured responses for technical or behavioral questions.
+
+**Summarizer Mode**: Quick summaries to keep track of the conversation.
+
+Switch with `Ctrl/Cmd + C` or `S` shortcuts.
+
+### 💬 Floating AI Assistant
+
+Press `K` to summon an "Ask AI" box. Type any question mid-interview and get instant answers without breaking your flow.
+
+## Tech Stack
+
+- **Frontend**: React, Next.js, TypeScript, Tailwind CSS, Shadcn/UI
+- **Desktop**: Electron (cross-platform support)
+- **Transcription**: Deepgram API
+- **AI**: Google Generative AI
+- **Backend**: Cloudflare Workers
+
+## Key Features
+
+**Context-Aware AI**: Provide your background, role, and company info upfront. The AI generates tailored responses—no generic fluff.
+
+**Response History**: Save winning answers and build your personal library.
+
+**Keyboard Shortcuts**: `K` (Ask AI), `C` (Copilot), `S` (Summarizer), `Enter` (Process), `Escape` (Clear).
+
+**Cross-Platform**: Built for macOS, Windows, and Linux. Fully tested on macOS—Windows/Linux users, feedback welcome!
+
+## Getting Started
+
+### Audio Setup
+
+You need audio loopback to capture system audio:
+
+- **macOS**: [BlackHole](https://existential.audio/blackhole/) + aggregate device
+- **Windows**: [VB-Audio Cable](https://vb-audio.com/Cable/) or [Voicemeeter](https://vb-audio.com/Voicemeeter/banana.htm)
+- **Linux**: PulseAudio/PipeWire with `helvum` or `qpwgraph`
+
+Check the [README](https://github.com/innovatorved/realtime-interview-copilot/tree/desktop-app) for detailed setup instructions.
+
+### Installation
+
+```bash
+git clone -b desktop-app https://github.com/innovatorved/realtime-interview-copilot.git
+cd realtime-interview-copilot
+pnpm install
+pnpm electron:dev  # or pnpm electron:build for production
+```
+
+### Usage
+
+1. Launch app → Configure audio device
+2. Enter interview context (role, company, background)
+3. Click mic → Start transcription
+4. Choose Copilot or Summarizer mode
+5. Hit Enter → Get AI responses
+6. Press `K` → Ask follow-up questions anytime
+
+## Why I Built This
+
+Interviews are stressful, and not everyone performs their best under pressure. This tool helps reduce anxiety and communicate what you already know more effectively. Think of it as training wheels—it helps you until you can ride on your own.
+
+**Use responsibly**: Always check your interview platform's terms of service. This is for assistance and learning, not deception.
+
+## Open Source & Community
+
+73 stars on GitHub and growing. The code is fully open source—fork it, customize it, learn from it. That's the beauty of sharing.
+
+**Roadmap**: Better Windows/Linux support, custom AI models, interview replay features, and more. But mostly, I want your feedback.
+
+## Links & Resources
+
+- **GitHub**: [Desktop App Branch](https://github.com/innovatorved/realtime-interview-copilot/tree/desktop-app)
+- **Video Demo**: [Watch Walkthrough](https://j9277ckk5t.ufs.sh/f/lPDuERZs4BoQEs2cuxO1V0tg7wmo8hxkr9aGyRuW3nPMH5eC)
+- **Web Version**: [copilot.vedgupta.in](https://copilot.vedgupta.in)
+- **Issues/Feedback**: [GitHub Issues](https://github.com/innovatorved/realtime-interview-copilot/issues)
+
+---
+
+**Status**: ✨ 73 stars, v0.1.0, actively maintained
+
+Whether you're prepping for FAANG or just need an interview confidence boost, give it a try. And if you find it useful, drop a star on GitHub—it fuels my coffee addiction. ☕️
+
+*Disclaimer: For educational and assistance purposes. Check your platform's ToS. Use responsibly.*
