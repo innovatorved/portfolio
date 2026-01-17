@@ -24,6 +24,7 @@
     --sh-keyword: #f47067;
     --sh-string: #0fa295;
   }
+
   html {
     color-scheme: dark;
   }
@@ -56,22 +57,35 @@ html {
   content: '#';
 }
 
-.prose *:hover > .anchor {
+.prose *:hover>.anchor {
   @apply visible;
 }
 
 .prose pre {
-  @apply bg-neutral-50 dark:bg-neutral-900 rounded-lg overflow-x-auto border border-neutral-200 dark:border-neutral-900 py-2 px-3 text-sm;
+  @apply bg-neutral-50 dark:bg-neutral-900 rounded-lg overflow-x-auto border border-neutral-200 dark:border-neutral-900 py-1.5 px-2.5;
+  font-size: 0.8rem;
 }
 
 .prose code {
-  @apply px-1 py-0.5 rounded-lg;
+  @apply px-1.5 py-0.5 rounded-md;
+  background-color: rgba(175, 184, 193, 0.2);
+  color: #c9463d;
+  font-size: 0.875em;
+}
+
+@media (prefers-color-scheme: dark) {
+  .prose code {
+    background-color: rgba(110, 118, 129, 0.4);
+    color: #f47067;
+  }
 }
 
 .prose pre code {
   @apply p-0;
+  background-color: transparent;
   border: initial;
   line-height: 1.5;
+  font-size: inherit;
 }
 
 .prose code span {
@@ -115,7 +129,7 @@ html {
   @apply list-decimal pl-6;
 }
 
-.prose > :first-child {
+.prose> :first-child {
   /* Override removing top margin, causing layout shift */
   margin-top: 1.25em !important;
   margin-bottom: 1.25em !important;
@@ -126,8 +140,10 @@ pre::-webkit-scrollbar {
 }
 
 pre {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 /* Remove Safari input shadow on mobile */
@@ -138,11 +154,55 @@ input[type='email'] {
   appearance: none;
 }
 
-table {
-  display: block;
-  max-width: fit-content;
+/* Table container for horizontal scroll on small screens */
+.prose table {
+  display: table;
+  width: 100%;
+  max-width: 100%;
   overflow-x: auto;
-  white-space: nowrap;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  table-layout: auto;
+}
+
+/* Allow wrapping for description columns */
+.prose td,
+.prose th {
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+.prose th,
+.prose td {
+  border: 1px solid #374151;
+  padding: 0.375rem 0.75rem;
+  text-align: left;
+  font-size: 0.875rem;
+}
+
+.prose th {
+  background-color: rgba(55, 65, 81, 0.3);
+  font-weight: 600;
+}
+
+.prose tr:nth-child(even) {
+  background-color: rgba(55, 65, 81, 0.1);
+}
+
+@media (prefers-color-scheme: light) {
+
+  .prose th,
+  .prose td {
+    border-color: #d1d5db;
+  }
+
+  .prose th {
+    background-color: rgba(229, 231, 235, 0.5);
+  }
+
+  .prose tr:nth-child(even) {
+    background-color: rgba(243, 244, 246, 0.5);
+  }
 }
 
 .title {
