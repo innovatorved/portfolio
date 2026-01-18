@@ -1,0 +1,45 @@
+---
+const navItems = [
+  { path: "/", name: "Home" },
+  { path: "/blog", name: "Blog" },
+  { path: "/projects", name: "Projects" },
+  { path: "/certifications", name: "Certifications" },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<aside class="-ml-[8px] mb-16 tracking-tight">
+  <div class="lg:sticky lg:top-20">
+    <nav
+      class="flex flex-row items-start relative px-0 pb-0 fade md:overflow-auto scroll-pr-6 md:relative"
+      id="nav"
+    >
+      <div class="flex flex-row space-x-0 pr-10">
+        {
+          navItems.map(({ path, name }) => (
+            <a
+              href={path}
+              aria-current={
+                currentPath === path ||
+                (path !== "/" && currentPath.startsWith(path))
+                  ? "page"
+                  : undefined
+              }
+              class:list={[
+                "transition-all hover:text-neutral-800 dark:hover:text-neutral-200 flex align-middle relative py-1 px-2 m-1",
+                {
+                  "text-neutral-800 dark:text-neutral-200":
+                    currentPath === path ||
+                    (path !== "/" && currentPath.startsWith(path)),
+                },
+              ]}
+            >
+              {name}
+            </a>
+          ))
+        }
+      </div>
+    </nav>
+  </div>
+</aside>

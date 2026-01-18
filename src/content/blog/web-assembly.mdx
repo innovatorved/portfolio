@@ -1,0 +1,94 @@
+---
+title: 'Web Assembly, the future of Web Technology ?'
+publishedAt: '2022-12-08'
+summary: 'WebAssembly is a low-level language that is designed to be fast, safe, and portable, and is intended to be used as a compilation target for high-level languages.'
+---
+
+WebAssembly (also known as Wasm) is a new technology that is being
+developed to enable high-performance applications on the web. It is
+designed to be a low-level language that can be used to write efficient
+and safe code that can be run in web browsers.
+
+WebAssembly is not intended to replace JavaScript, but rather to
+complement it and provide an alternative for certain types of
+applications.
+
+> WebAssembly (Wasm) is a binary instruction format for a stack-based
+> virtual machine that allows developers to run compiled code in the
+> browser or other environments at near-native speeds.
+
+- WebAssembly is a low-level, assembly-like language that runs in web
+  browsers and other environments.
+- WebAssembly is a low-level language, which means it can be used to
+  compile code written in a variety of higher-level languages,
+  including C, C++, Rust, and TypeScript.
+- WebAssembly can be used to create web applications that have
+  previously been impossible or impractical to run in a web browser,
+  such as applications with high-performance graphics or complex
+  computations.
+- WebAssembly has a growing ecosystem of tools, libraries, and
+  frameworks that can be used to develop and deploy web applications.
+  These include tools for debugging and performance analysis, as well
+  as libraries for graphics, audio, and other common application
+  needs.
+
+Here is an example of how WebAssembly can be used to compile and run code
+written in a high-level language in a web browser
+
+Suppose we have the following simple C++ function, which calculates the
+factorial of a given number:
+
+**factorial.cpp**
+```cpp
+int factorial(int n) {
+    if (n == 0) {
+        return 1;
+    }
+    return n * factorial(n - 1);
+}
+```
+
+We can compile this function to WebAssembly using a tool such as
+Emscripten. This will generate a binary file (with a .wasm extension)
+that contains the compiled code.
+
+To compile this code to WebAssembly, you would use a tool such as
+Emscripten. For example, you could use the following command:
+```bash
+emcc factorial.cpp -o factorial.wasm
+```
+
+To run this code in a web page, we can use the WebAssembly JavaScript
+API to load and instantiate the .wasm file. This will create an
+instance of the WebAssembly module, which we can then call like any
+other JavaScript function:
+```javascript
+const wasmModule = await WebAssembly.instantiateStreaming(fetch('factorial.wasm'
+));
+const factorial = wasmModule.instance.exports.factorial;
+
+console.log(factorial(5)); // 120
+```
+
+In this example, the factorial() function is compiled to WebAssembly
+and run in the browser, allowing us to perform high-performance
+calculations in the browser without the need for a plugin or other
+runtime.
+
+### Pros
+- Fast and efficient execution of compiled code in the browser or other
+environments
+- Supports a wide range of programming languages
+- Supported by all major web browsers
+- In short, WebAssembly allows developers to create high-performance web
+applications that can be deployed and run on a wide range of devices
+and platforms.
+
+### Cons
+- Low-level language can be difficult to write and debug
+- Primarily designed for use in web browsers, limiting flexibility and
+portability
+- Relatively new and not as well-supported as other web development
+technologies
+
+🔗 Related Link: https://webassembly.org/

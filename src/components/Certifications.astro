@@ -1,0 +1,79 @@
+---
+import { certifications } from "@/lib/certifications";
+---
+
+<div class="my-10">
+  <h2 class="mb-7 text-xl font-semibold tracking-tight">Certifications</h2>
+  <div class="flex flex-col gap-6">
+    {
+      certifications.map((c) => (
+        <div class="group relative p-5 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 shadow-sm hover:shadow-md transition-all hover:border-neutral-300 dark:hover:border-neutral-700">
+          <div class="flex items-start justify-between gap-3">
+            <h3 class="text-base font-semibold flex items-center gap-3 leading-snug">
+              {c.image && (
+                <img
+                  src={c.image}
+                  alt={c.title}
+                  class="h-12 w-12 rounded-md border border-neutral-200 dark:border-neutral-800 object-cover shadow-sm"
+                  loading="lazy"
+                />
+              )}
+              {!c.image && c.remoteImage && (
+                <img
+                  src={c.remoteImage}
+                  alt={`${c.title} certification badge from ${c.issuer}`}
+                  width="48"
+                  height="48"
+                  class="h-12 w-12 rounded-md border border-neutral-200 dark:border-neutral-800 object-cover shadow-sm"
+                  loading="lazy"
+                />
+              )}
+              <span>{c.title}</span>
+            </h3>
+            <span class="text-[11px] font-medium text-neutral-500 dark:text-neutral-400 whitespace-nowrap mt-0.5">
+              {c.issued}
+            </span>
+          </div>
+          <p class="mt-1 text-xs font-medium text-neutral-700 dark:text-neutral-300 tracking-wide">
+            {c.issuer}
+            {c.credentialId && (
+              <span class="ml-2 text-[10px] text-neutral-500 dark:text-neutral-400">
+                ID: {c.credentialId}
+              </span>
+            )}
+          </p>
+          {c.description && (
+            <p class="mt-2 text-[13px] text-neutral-600 dark:text-neutral-400 leading-relaxed line-clamp-[14]">
+              {c.description}
+            </p>
+          )}
+          {c.skills && c.skills.length > 0 && (
+            <ul class="flex flex-wrap gap-1.5 mt-3">
+              {c.skills.map((s) => (
+                <li class="text-[10px] tracking-wide px-2 py-1 rounded-md bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700">
+                  {s}
+                </li>
+              ))}
+            </ul>
+          )}
+          {c.url && (
+            <div class="mt-4 flex">
+              <a
+                href={c.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center text-[12px] font-medium text-neutral-800 dark:text-neutral-200 underline decoration-dotted underline-offset-4 group-hover:decoration-solid"
+              >
+                View Credential
+                <span class="ml-1 transition-transform group-hover:translate-x-0.5">
+                  →
+                </span>
+              </a>
+            </div>
+          )}
+          <div class="pointer-events-none absolute inset-0 rounded-lg ring-1 ring-transparent group-hover:ring-blue-300/40 dark:group-hover:ring-blue-500/30 transition" />
+        </div>
+      ))
+    }
+  </div>
+</div>

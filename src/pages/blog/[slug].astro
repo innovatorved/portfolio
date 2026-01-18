@@ -1,0 +1,56 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { formatDate } from "@/lib/utils";
+
+export async function getStaticPaths() {
+    const posts = await getCollection("blog");
+    return posts.map((post) => ({
+        params: { slug: post.slug },
+        props: { post },
+    }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+const ogImage =
+    post.data.image || `/og?title=${encodeURIComponent(post.data.title)}`;
+---
+
+<BaseLayout
+    title={post.data.title}
+    description={post.data.summary}
+    image={ogImage}
+>
+    <section>
+        <script
+            type="application/ld+json"
+            set:html={JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "BlogPosting",
+                headline: post.data.title,
+                datePublished: post.data.publishedAt,
+                dateModified: post.data.publishedAt,
+                description: post.data.summary,
+                image: post.data.image || ogImage,
+                url: `${Astro.site}blog/${post.slug}`,
+                author: {
+                    "@type": "Person",
+                    name: "Ved Gupta Portfolio",
+                },
+            })}
+        />
+        <h1 class="title font-semibold text-2xl tracking-tighter">
+            {post.data.title}
+        </h1>
+        <div class="flex justify-between items-center mt-2 mb-8 text-sm">
+            <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                {formatDate(post.data.publishedAt)}
+            </p>
+        </div>
+        <article class="prose">
+            <Content />
+        </article>
+    </section>
+</BaseLayout>

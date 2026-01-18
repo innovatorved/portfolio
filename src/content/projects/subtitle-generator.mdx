@@ -1,0 +1,87 @@
+---
+title: 'Subtitle Generator — Open Source Video Captioning'
+publishedAt: '2026-01-18'
+summary: 'An open-source Python package that generates accurate subtitles from video and audio files using Whisper AI. Supports 7 output formats, batch processing, and video embedding.'
+---
+
+Ever tried adding subtitles to a video manually? It's tedious. That's why I built **[Subtitle Generator](https://pypi.org/project/subtitle-generator/)**—an AI-powered tool that leverages Whisper's speech-to-text through the blazing-fast whisper.cpp backend.
+
+## ✨ Key Features
+
+- 🎯 **7 Output Formats** — VTT, SRT, ASS, TTML, LRC, JSON, TXT
+- 🚀 **Fast Processing** — Powered by whisper.cpp for high-performance inference
+- 📦 **Batch Processing** — Process folders of videos with resume capability
+- 🔄 **Video Embedding** — Embed subtitles directly into videos with `--merge`
+- 🌍 **Multilingual** — Support for multiple languages
+- 🔀 **Async API** — Concurrent processing for Python applications
+
+## 🛠️ Installation
+
+```bash
+pip install subtitle-generator
+```
+
+> **Prerequisite**: FFmpeg required — `brew install ffmpeg` (macOS) or `sudo apt install ffmpeg` (Ubuntu)
+
+## 📖 Quick Start
+
+**Generate subtitles (VTT format):**
+```bash
+subtitle video.mp4
+```
+
+**Generate SRT format:**
+```bash
+subtitle video.mp4 --format srt
+```
+
+**Use a larger model for better accuracy:**
+```bash
+subtitle video.mp4 --model large
+```
+
+**Generate and embed into video:**
+```bash
+subtitle video.mp4 --merge
+```
+
+**Batch process a folder:**
+```bash
+subtitle batch --input-dir ./videos --output ./subtitles
+```
+
+## Available Models
+
+| Model | Size | Speed | Best For |
+|-------|------|-------|----------|
+| `tiny` | ~75MB | ⚡⚡⚡⚡ | Quick previews |
+| `base` | ~140MB | ⚡⚡⚡ | General use (default) |
+| `small` | ~460MB | ⚡⚡ | Quality output |
+| `medium` | ~1.5GB | ⚡ | Professional work |
+| `large` | ~3GB | 🐢 | Maximum accuracy |
+
+> **Tip**: Use `.en` models (e.g., `base.en`) for English-only content—faster and more accurate.
+
+## CLI Options
+
+| Option | Description |
+|--------|-------------|
+| `--model`, `-m` | Model: `tiny`, `base`, `small`, `medium`, `large` |
+| `--format`, `-f` | Format: `vtt`, `srt`, `txt`, `json`, `lrc`, `ass`, `ttml` |
+| `--merge` | Embed subtitles into video |
+| `--threads`, `-t` | Processing threads (default: 4) |
+| `--resume` | Resume interrupted batch |
+
+## 🔗 Links
+
+- **PyPI**: [subtitle-generator](https://pypi.org/project/subtitle-generator/)
+- **GitHub**: [innovatorved/subtitle](https://github.com/innovatorved/subtitle)
+- **Issues**: [GitHub Issues](https://github.com/innovatorved/subtitle/issues)
+
+---
+
+**Status**: 🚀 v2.0.2, MIT Licensed, actively maintained
+
+If you find it useful, a star on GitHub would be appreciated! ⭐
+
+*For support: vedgupta@protonmail.com*

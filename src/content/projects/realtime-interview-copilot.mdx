@@ -1,0 +1,91 @@
+---
+title: 'Realtime Interview Copilot: Your AI Interview Partner'
+publishedAt: '2025-10-18'
+summary: 'A real-time AI assistant that listens to interview questions, transcribes them instantly, and generates intelligent responses to help you ace your interviews.'
+image: '/static/images/realtime-interview-copilot-screenshot.png'
+---
+
+We've all been there—sitting in an interview, a tough question comes your way, and your mind goes blank. What if you had an AI assistant listening alongside you, ready to help craft the perfect response?
+
+That's exactly what Realtime Interview Copilot does. It combines real-time speech transcription with AI-powered response generation to give you an intelligent edge during interviews.
+
+![Realtime Interview Copilot Screenshot](/static/images/realtime-interview-copilot-screenshot.png)
+
+## How It Works
+
+The concept is straightforward but powerful:
+
+1. **You provide context** about yourself, the role, and the company
+2. **Start the interview** and click the microphone to begin listening
+3. **Questions are transcribed in real-time** using Deepgram's speech-to-text API
+4. **Choose your mode**: Copilot (detailed response) or Summarizer (quick notes)
+5. **Hit process** and get an AI-generated answer tailored to your context
+6. **Use the floating AI assistant** to ask follow-up questions anytime
+
+The magic happens through the seamless integration of Deepgram for transcription and Google Generative AI for intelligent response generation. Everything happens in seconds, giving you that crucial moment to organize your thoughts.
+
+## Key Features
+
+**Real-Time Transcription:** Deepgram converts spoken questions into text instantly with impressive accuracy.
+
+**Dual Processing Modes:** Switch between comprehensive answers (Copilot) or concise summaries (Summarizer) based on what you need.
+
+**Floating AI Assistant:** A draggable "Ask AI" box stays accessible throughout your interview. Type any follow-up question and get instant help without interrupting your flow.
+
+**Keyboard Shortcuts:** Quick access with `Ctrl + S` (Summarizer), `Ctrl + C` (Copilot), and `Ctrl + Enter` (Process) keeps you productive.
+
+**Response History:** Save important responses to review later and learn what worked well.
+
+## Tech Stack
+
+Built with modern web technologies for speed and reliability:
+
+- **Next.js & TypeScript** for the full-stack application
+- **React & Tailwind CSS** for a responsive, intuitive interface
+- **Shadcn/UI** components for polished user experience
+- **Deepgram API** for real-time speech transcription
+- **Google Generative AI** for intelligent response generation
+- **Cloudflare Workers** for edge deployment
+
+## Getting Started
+
+```bash
+# Clone the repository
+git clone https://github.com/innovatorved/realtime-interview-copilot.git
+cd realtime-interview-copilot
+
+# Install dependencies
+pnpm install
+
+# Set up your environment variables
+# Create .env.local with:
+# DEEPGRAM_API_KEY=your_key
+# GOOGLE_GENERATIVE_AI_API_KEY=your_key
+
+# Run the development server
+pnpm dev
+```
+
+Visit `http://localhost:3000` and you're ready to go.
+
+## Why I Built This
+
+Interviews can be intimidating, especially when you're faced with unexpected questions or high-pressure situations. I wanted to create something that could help people:
+
+- Stay calm and focused during interviews
+- Structure better responses on the fly
+- Learn from their interview experiences
+- Practice with real-time feedback
+
+The goal wasn't to replace preparation or genuine knowledge—it's to reduce anxiety and help you communicate your skills more effectively.
+
+## Try It Out
+
+The live version is deployed at [copilot.vedgupta.in](https://copilot.vedgupta.in). Feel free to test it out and see how it can help with your interview preparation.
+
+The project is open source on [GitHub](https://github.com/innovatorved/realtime-interview-copilot), and contributions are always welcome. Whether you're preparing for your dream job or just curious about combining speech recognition with AI, give it a try!
+
+## Links
+
+- **Live Demo:** [copilot.vedgupta.in](https://copilot.vedgupta.in)
+- **GitHub:** [innovatorved/realtime-interview-copilot](https://github.com/innovatorved/realtime-interview-copilot)

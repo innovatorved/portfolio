@@ -1,0 +1,38 @@
+---
+const experiences = [
+  {
+    company: 'LTIMindtree',
+    role: 'Cloud Engineer',
+    location: 'Hyderabad, India',
+    period: 'Mar 2024 - Present',
+    points: [
+      'Working on Microsoft Azure Cloud projects with focus on Infrastructure as a Service (IaaS), optimizing and managing cloud infrastructure.',
+      'Implementing and deploying scalable, secure, and efficient cloud solutions on Azure.',
+      'Collaborating with teams to design and deploy cloud architectures aligned with business needs.',
+      'Providing solutions for clients by designing, deploying, and managing Azure IaaS environments tailored to their specific needs.',
+    ],
+  },
+];
+---
+
+<div class="my-8">
+  <h2 class="mb-6 text-xl font-semibold tracking-tighter">Experience</h2>
+  <div class="space-y-8">
+    {experiences.map((exp) => (
+      <div>
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
+          <h3 class="text-lg font-semibold">{exp.company}</h3>
+          <span class="text-sm text-gray-600 dark:text-gray-400 mt-1 sm:mt-0">{exp.period}</span>
+        </div>
+        <p class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+          {exp.role} • {exp.location}
+        </p>
+        <ul class="space-y-2 text-sm text-gray-600 dark:text-gray-400 ml-4">
+          {exp.points.map((point) => (
+            <li class="list-disc">{point}</li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</div>

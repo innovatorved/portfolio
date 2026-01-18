@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+
+const projects = (await getCollection('projects'))
+  .sort((a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime());
+
+function formatDate(dateString: string): string {
+  const date = new Date(dateString.includes('T') ? dateString : `${dateString}T00:00:00`);
+  return date.toLocaleDateString('en-us', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+}
+---
+
+<div>
+  {projects.map((project) => (
+    <a
+      href={`/projects/${project.slug}`}
+      class="flex flex-col space-y-1 mb-4"
+    >
+      <div class="w-full flex flex-col md:flex-row space-x-0 md:space-x-2">
+        <p class="text-neutral-600 dark:text-neutral-400 w-[100px] tabular-nums">
+          {formatDate(project.data.publishedAt)}
+        </p>
+        <p class="text-neutral-900 dark:text-neutral-100 tracking-tight">
+          {project.data.title}
+        </p>
+      </div>
+    </a>
+  ))}
+</div>

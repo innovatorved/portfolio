@@ -1,0 +1,80 @@
+---
+title: 'Subtitle: Breaking Down Language Barriers with AI-Powered Caption Generation'
+publishedAt: '2023-11-22'
+summary: 'Let the Words Flow: Automatic Video Subtitling for Global Accessibility'
+---
+
+In the realm of software development, breaking down language barriers
+is crucial for fostering collaboration, exchanging knowledge, and
+expanding the reach of technological advancements. Subtitle, an
+open-source AI-powered caption generation project, emerges as a
+groundbreaking tool that empowers developers to break down language
+barriers and enhance the accessibility of multilingual content.
+
+## Subtitle: An Overview for Developers
+
+Subtitle is an open-source project that utilizes cutting-edge machine
+learning algorithms and natural language processing techniques to
+generate accurate and natural-sounding captions for videos in various
+languages. Developers can seamlessly integrate Subtitle into their
+projects, leveraging its API to enhance the accessibility and
+understanding of multilingual video content.
+
+Subtitle utilizes the open-source Whisper ASR model for high-quality
+speech recognition, ensuring accurate and natural caption
+generation.
+
+### Pros
+- Open-source: Freely available for use, modification, and distribution.
+- Self-hosted: Run the tool on your own servers for enhanced control and
+privacy.
+- AI-powered: Leverage advanced machine learning for accurate and
+natural-sounding subtitles.
+- Multilingual support: Generate subtitles for videos in a wide range of
+languages.
+
+## Getting Started with Subtitle
+
+### Installation
+
+FFmpeg First, you need to install FFmpeg. Here's how you can do it:
+```bash
+# On Linux
+sudo apt install ffmpeg
+```
+
+Clone the Repository: Clone the Subtitle repository from GitHub using
+the command
+```bash
+git clone https://github.com/innovatorved/subtitle.git.
+cd subtitle
+```
+
+Install Dependencies: Install the project's dependencies using the
+command
+```bash
+pip install -r requirements.txt
+```
+
+### Run
+
+You can run the script from the command line using the following
+command:
+```bash
+python subtitle.py <filepath | video_url> [--model <modelname>]
+```
+
+Replace `<filepath | video_url>` with the path to your video file. The
+`--model` argument is optional. If not provided, it will use 'base' as
+the default model.
+
+For example:
+```bash
+python subtitle.py /path/to/your/video.mp4 --model base
+```
+
+This will run the script on the video at `/path/to/your/video.mp4` using
+the base model. Please replace `/path/to/your/video.mp4` with the actual
+path to your video file.
+
+🔗 Related Link: https://github.com/innovatorved/subtitle
