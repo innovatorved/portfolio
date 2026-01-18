@@ -20,6 +20,16 @@ export interface Certification {
 export function getCertifications(): Certification[] {
   return [
     {
+      title: 'Microsoft Certified: Azure AI Fundamentals',
+      issuer: 'Microsoft',
+      issued: '2026-01-18',
+      url: 'https://learn.microsoft.com/en-in/users/innovatorved/credentials/C0CE5CB516A4E697',
+      description:
+        'Demonstrated foundational knowledge of machine learning and AI concepts, along with Azure AI services including computer vision, natural language processing, and generative AI.',
+      skills: ['Azure AI', 'Machine Learning', 'Computer Vision', 'NLP', 'Generative AI', 'Cognitive Services'],
+      image: '/static/images/certifications/azure-ai-fundamentals.png'
+    },
+    {
       title: 'Microsoft Certified: Azure Fundamentals',
       issuer: 'Microsoft',
       issued: '2025-05', // From resume: May, 2025
