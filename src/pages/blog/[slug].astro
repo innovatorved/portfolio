@@ -1,27 +1,37 @@
 ---
-import { getCollection } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { formatDate } from "@/lib/utils";
+import { getPostBySlug } from "@/lib/db";
+import { marked } from "marked";
 
-export async function getStaticPaths() {
-    const posts = await getCollection("blog");
-    return posts.map((post) => ({
-        params: { slug: post.slug },
-        props: { post },
-    }));
+const { slug } = Astro.params;
+
+if (!slug) {
+    return Astro.redirect("/404");
 }
 
-const { post } = Astro.props;
-const { Content } = await post.render();
+const post = await getPostBySlug(slug, "blog");
 
-const ogImage =
-    post.data.image || `/og?title=${encodeURIComponent(post.data.title)}`;
+if (!post) {
+    return Astro.redirect("/404");
+}
+
+const contentHtml = await marked.parse(post.content || "");
+
+// Vercel Edge Caching (ISR-like behavior)
+// Cache for 60 seconds (s-maxage), stale-while-revalidate for 1 hour
+Astro.response.headers.set(
+    "Cache-Control",
+    "public, max-age=0, s-maxage=60, stale-while-revalidate=3600",
+);
+
+const ogImage = post.image || `/og?title=${encodeURIComponent(post.title)}`;
 ---
 
 <BaseLayout
-    title={post.data.title}
-    description={post.data.summary}
-    image={ogImage}
+    title={post.title}
+    description={post.summary || undefined}
+    image={ogImage || undefined}
 >
     <section>
         <script
@@ -29,11 +39,15 @@ const ogImage =
             set:html={JSON.stringify({
                 "@context": "https://schema.org",
                 "@type": "BlogPosting",
-                headline: post.data.title,
-                datePublished: post.data.publishedAt,
-                dateModified: post.data.publishedAt,
-                description: post.data.summary,
-                image: post.data.image || ogImage,
+                headline: post.title,
+                datePublished: post.publishedAt
+                    ? post.publishedAt.toISOString()
+                    : new Date().toISOString(),
+                dateModified: post.publishedAt
+                    ? post.publishedAt.toISOString()
+                    : new Date().toISOString(),
+                description: post.summary,
+                image: post.image || ogImage,
                 url: `${Astro.site}blog/${post.slug}`,
                 author: {
                     "@type": "Person",
@@ -42,15 +56,13 @@ const ogImage =
             })}
         />
         <h1 class="title font-semibold text-2xl tracking-tighter">
-            {post.data.title}
+            {post.title}
         </h1>
         <div class="flex justify-between items-center mt-2 mb-8 text-sm">
             <p class="text-sm text-neutral-600 dark:text-neutral-400">
-                {formatDate(post.data.publishedAt)}
+                {formatDate(post.publishedAt)}
             </p>
         </div>
-        <article class="prose">
-            <Content />
-        </article>
+        <article class="prose" set:html={contentHtml} />
     </section>
 </BaseLayout>

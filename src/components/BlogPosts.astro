@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "astro:content";
+import { getAllPosts } from "@/lib/db";
 import { formatDate } from "@/lib/utils";
 
 interface Props {
@@ -8,13 +8,8 @@ interface Props {
 
 const { limit } = Astro.props;
 
-const posts = (await getCollection("blog"))
-  .sort(
-    (a, b) =>
-      new Date(b.data.publishedAt).getTime() -
-      new Date(a.data.publishedAt).getTime(),
-  )
-  .slice(0, limit);
+const rawPosts = await getAllPosts("blog");
+const posts = rawPosts.slice(0, limit);
 ---
 
 <div>
@@ -23,10 +18,10 @@ const posts = (await getCollection("blog"))
       <a href={`/blog/${post.slug}`} class="flex flex-col space-y-1 mb-4">
         <div class="w-full flex flex-col md:flex-row space-x-0 md:space-x-2">
           <p class="text-neutral-600 dark:text-neutral-400 w-[100px] tabular-nums">
-            {formatDate(post.data.publishedAt)}
+            {formatDate(post.publishedAt)}
           </p>
           <p class="text-neutral-900 dark:text-neutral-100 tracking-tight">
-            {post.data.title}
+            {post.title}
           </p>
         </div>
       </a>

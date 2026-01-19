@@ -6,16 +6,30 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "db:push": "drizzle-kit push",
+    "db:generate": "drizzle-kit generate"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.13",
     "@astrojs/rss": "^4.0.15",
     "@astrojs/sitemap": "^3.7.0",
+    "@astrojs/vercel": "^9.0.4",
+    "@notionhq/client": "^5.7.0",
     "@tailwindcss/vite": "^4.1.18",
+    "@tryfabric/martian": "^1.2.4",
     "astro": "^5.16.11",
+    "drizzle-orm": "^0.45.1",
     "geist": "^1.5.1",
+    "marked": "^17.0.1",
+    "notion-astro-loader": "^0.4.0",
+    "notion-to-md": "^3.1.9",
+    "postgres": "^3.4.8",
     "sugar-high": "^0.9.5",
-    "tailwindcss": "^4.1.18"
+    "tailwindcss": "^4.1.18",
+    "uploadthing": "^7.7.4"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.8"
   }
 }

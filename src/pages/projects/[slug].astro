@@ -1,27 +1,48 @@
 ---
-import { getCollection } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { formatDate } from "@/lib/utils";
+import { getPostBySlug } from "@/lib/db";
+import { marked } from "marked";
 
-export async function getStaticPaths() {
-    const projects = await getCollection("projects");
-    return projects.map((project) => ({
-        params: { slug: project.slug },
-        props: { project },
-    }));
+const { slug } = Astro.params;
+
+if (!slug) {
+    return Astro.redirect("/404");
 }
 
-const { project } = Astro.props;
-const { Content } = await project.render();
+const project = await getPostBySlug(slug, "project");
+
+if (!project) {
+    return Astro.redirect("/404");
+}
+
+// Parse markdown to HTML
+let contentHtml = await marked.parse(project.content || "");
+
+// Post-process to convert video URLs to video tags
+const videoExtensions = [".mp4", ".mov", ".webm", ".ogg"];
+contentHtml = contentHtml.replace(
+    /<a href="([^"]+#\.mp4|[^"]+\.(?:mp4|mov|webm|ogg))"[^>]*>([^<]*)<\/a>/gi,
+    (match, url, text) => {
+        const cleanUrl = url.replace("#.mp4", "");
+        return `<video controls src="${cleanUrl}" style="width: 100%; max-width: 100%; height: auto; border-radius: 8px; margin: 1rem 0;"></video>`;
+    },
+);
+
+// Vercel Edge Caching (ISR-like behavior)
+Astro.response.headers.set(
+    "Cache-Control",
+    "public, max-age=0, s-maxage=60, stale-while-revalidate=3600",
+);
 
 const ogImage =
-    project.data.image || `/og?title=${encodeURIComponent(project.data.title)}`;
+    project.image || `/og?title=${encodeURIComponent(project.title)}`;
 ---
 
 <BaseLayout
-    title={project.data.title}
-    description={project.data.summary}
-    image={ogImage}
+    title={project.title}
+    description={project.summary || undefined}
+    image={ogImage || undefined}
 >
     <section>
         <script
@@ -29,11 +50,15 @@ const ogImage =
             set:html={JSON.stringify({
                 "@context": "https://schema.org",
                 "@type": "Article",
-                headline: project.data.title,
-                datePublished: project.data.publishedAt,
-                dateModified: project.data.publishedAt,
-                description: project.data.summary,
-                image: project.data.image || ogImage,
+                headline: project.title,
+                datePublished: project.publishedAt
+                    ? project.publishedAt.toISOString()
+                    : new Date().toISOString(),
+                dateModified: project.publishedAt
+                    ? project.publishedAt.toISOString()
+                    : new Date().toISOString(),
+                description: project.summary,
+                image: project.image || ogImage,
                 url: `${Astro.site}projects/${project.slug}`,
                 author: {
                     "@type": "Person",
@@ -42,15 +67,13 @@ const ogImage =
             })}
         />
         <h1 class="title font-semibold text-2xl tracking-tighter">
-            {project.data.title}
+            {project.title}
         </h1>
         <div class="flex justify-between items-center mt-2 mb-8 text-sm">
             <p class="text-sm text-neutral-600 dark:text-neutral-400">
-                {formatDate(project.data.publishedAt)}
+                {formatDate(project.publishedAt)}
             </p>
         </div>
-        <article class="prose">
-            <Content />
-        </article>
+        <article class="prose" set:html={contentHtml} />
     </section>
 </BaseLayout>

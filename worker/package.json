@@ -1,0 +1,21 @@
+{
+    "name": "worker",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "dev": "wrangler dev",
+        "deploy": "wrangler deploy",
+        "tail": "wrangler tail"
+    },
+    "devDependencies": {
+        "@cloudflare/workers-types": "^4.20241127.0",
+        "drizzle-kit": "^0.31.8",
+        "wrangler": "^4"
+    },
+    "dependencies": {
+        "@notionhq/client": "^5.7.0",
+        "drizzle-orm": "^0.45.1",
+        "notion-to-md": "^3.1.9",
+        "postgres": "^3.4.8"
+    }
+}

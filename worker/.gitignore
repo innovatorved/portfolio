@@ -1,0 +1,9 @@
+# /worker/.gitignore
+node_modules
+dist
+.wrangler
+.env
+.dev.vars
+package-lock.json
+bun.lock
+yarn.lock

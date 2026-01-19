@@ -1,16 +1,35 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import ProjectPosts from "@/components/ProjectPosts.astro";
+
+// ISR-like behavior: Cache for 60s, stale-while-revalidate for 1 hour
+Astro.response.headers.set(
+    "Cache-Control",
+    "public, max-age=0, s-maxage=60, stale-while-revalidate=3600",
+);
 ---
 
 <BaseLayout
     title="Projects"
-    description="Projects by Ved Gupta (innovatorved | vedgupta) - Cloud, AI, and Web Development."
+    description="A list of projects by Ved Gupta (innovatorved | vedgupta)."
 >
     <section>
         <h1 class="font-semibold text-2xl mb-8 tracking-tighter">
             My Projects
         </h1>
+        <p class="text-neutral-600 dark:text-neutral-300 mb-8 text-sm">
+            I've created a variety of small, useful projects. You can explore
+            them on my Github{" "}
+            <a
+                href="https://github.com/innovatorved"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="underline hover:text-neutral-800 dark:hover:text-neutral-100"
+            >
+                @innovatorved
+            </a>
+            .
+        </p>
         <ProjectPosts />
     </section>
 </BaseLayout>
