@@ -332,6 +332,10 @@ async function main() {
         console.warn('⚠️  UPLOADTHING_TOKEN is missing. Files will NOT be uploaded.');
     }
 
+    console.log('\n--- Ensuring Database Schema ---');
+    await updateDatabaseSchema(BLOG_DB_ID!, 'Blog');
+    await updateDatabaseSchema(PROJECTS_DB_ID!, 'Projects');
+
     console.log('\n--- Migrating Blog ---');
     await migrateFolder(BLOG_DIR, BLOG_DB_ID!, 'blog');
 
@@ -339,6 +343,38 @@ async function main() {
     await migrateFolder(PROJECTS_DIR, PROJECTS_DB_ID!, 'project');
 
     console.log('\nDone!');
+}
+
+async function updateDatabaseSchema(dbId: string, name: string) {
+    const SECRET = process.env.WEBHOOK_SECRET;
+    if (!SECRET) {
+        console.warn(`⚠️ WEBHOOK_SECRET not set. Skipping Deploy formula update for ${name}.`);
+        return;
+    }
+
+    const workerUrl = "https://portfolio-cms-worker.innovatorved.workers.dev";
+    // Determine type based on name (hacky but works for this script context)
+    const type = name.toLowerCase().includes('project') ? 'project' : 'blog';
+
+    // Fix: Worker expects 'pageId' not 'id', and we should pass 'type'
+    const formulaExpression = `if(prop("Status") == "Published", "${workerUrl}/?secret=${SECRET}&pageId=" + id() + "&type=${type}", "")`;
+
+    console.log(`Updating schema for ${name}...`);
+    try {
+        await notionRequest(`databases/${dbId}`, 'PATCH', {
+            properties: {
+                "Deploy": {
+                    formula: {
+                        expression: formulaExpression
+                    }
+                }
+            }
+        });
+        console.log(`✅ Successfully updated Deploy formula for ${name}`);
+    } catch (error) {
+        console.error(`❌ Failed to update schema for ${name}:`, error);
+        // Don't fail the whole migration for this, just warn
+    }
 }
 
 main();
