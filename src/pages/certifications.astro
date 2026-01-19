@@ -1,19 +1,111 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import CertificationsList from "@/components/Certifications.astro";
+import { certifications } from "@/lib/certifications";
+
+// Generate structured data for certifications
+const credentialSchema = certifications.map((cert) => ({
+    "@type": "EducationalOccupationalCredential",
+    name: cert.title,
+    credentialCategory: "Professional Certification",
+    recognizedBy: {
+        "@type": "Organization",
+        name: cert.issuer,
+    },
+    dateCreated: cert.issued,
+    url: cert.url || undefined,
+    description: cert.description,
+    competencyRequired: cert.skills?.join(", "),
+}));
+
+const personSchema = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Ved Gupta",
+    alternateName: ["innovatorved", "vedgupta"],
+    url: "https://vedgupta.in",
+    sameAs: [
+        "https://github.com/innovatorved",
+        "https://linkedin.com/in/innovatorved",
+        "https://twitter.com/innovatorved",
+    ],
+    hasCredential: credentialSchema,
+    knowsAbout: [
+        "Microsoft Azure",
+        "Google Cloud Platform",
+        "Cloud Engineering",
+        "Full Stack Development",
+        "Generative AI",
+        "React",
+        "Next.js",
+    ],
+};
+
+const itemListSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Ved Gupta Professional Certifications",
+    description:
+        "List of professional certifications earned by Ved Gupta (innovatorved)",
+    numberOfItems: certifications.length,
+    itemListElement: certifications.map((cert, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+            "@type": "EducationalOccupationalCredential",
+            name: cert.title,
+            credentialCategory: "Professional Certification",
+            recognizedBy: {
+                "@type": "Organization",
+                name: cert.issuer,
+            },
+            dateCreated: cert.issued,
+            url: cert.url,
+        },
+    })),
+};
+
+// Build keyword-rich description
+const certNames = certifications
+    .map((c) => c.title)
+    .slice(0, 3)
+    .join(", ");
+const pageDescription = `Professional certifications of Ved Gupta (innovatorved): ${certNames}, and more. Verified cloud, AI & development credentials from Microsoft Azure, Google Cloud, and GitHub.`;
 ---
 
 <BaseLayout
-    title="Certifications"
-    description="Professional certifications and verified credentials of Ved Gupta (innovatorved | vedgupta)."
+    title="Certifications - Cloud & AI Credentials"
+    description={pageDescription}
 >
+    <Fragment slot="head">
+        <script
+            type="application/ld+json"
+            set:html={JSON.stringify(personSchema)}
+        />
+        <script
+            type="application/ld+json"
+            set:html={JSON.stringify(itemListSchema)}
+        />
+        <meta
+            name="keywords"
+            content="Ved Gupta certifications, innovatorved certifications, vedgupta credentials, Azure certification, Google Cloud certification, Microsoft certified, GitHub certified, cloud engineer certification, AI fundamentals, Azure Administrator"
+        />
+    </Fragment>
+
     <section>
+        <h1
+            class="text-2xl font-bold tracking-tight mb-4 text-neutral-900 dark:text-neutral-100"
+        >
+            Certifications & Credentials
+        </h1>
         <p
             class="text-neutral-700 dark:text-neutral-300 mb-6 text-sm leading-relaxed"
         >
-            A curated list of professional certifications and credentials. These
-            validate skills across cloud, development, and AI tooling. More
-            being added as I continue learning.
+            A curated list of professional certifications and verified
+            credentials of <strong>Ved Gupta (innovatorved)</strong>. These
+            validate expertise across <strong>Microsoft Azure</strong>,
+            <strong>Google Cloud Platform</strong>, full-stack development, and
+            AI tooling. Continuously expanding as I pursue more certifications.
         </p>
         <CertificationsList />
     </section>

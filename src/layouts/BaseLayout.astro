@@ -149,6 +149,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       }
     </style>
 
+    <!-- Page-specific head content -->
+    <slot name="head" />
+
     <!-- Google Tag Manager -->
     <script type="text/partytown">
       (function (w, d, s, l, i) {
