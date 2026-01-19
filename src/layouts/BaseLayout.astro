@@ -56,6 +56,15 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href={canonicalURL} />
 
+    <!-- Sitemap and RSS Feed Discovery -->
+    <link rel="sitemap" href="/sitemap.xml" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Ved Gupta Portfolio - RSS Feed"
+      href={new URL("/rss.xml", Astro.site)}
+    />
+
     <!-- Google Verification -->
     <meta
       name="google-site-verification"

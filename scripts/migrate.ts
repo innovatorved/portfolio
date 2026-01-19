@@ -205,7 +205,7 @@ async function migrateFolder(dir: string, dbId: string, type: 'blog' | 'project'
         // Fix relative links (non-images) to absolute
         // Any link starting with / that wasn't replaced by the image uploader logic
         // (The regex above only touched ![...](...), so standard Links [...](/...) are untouched)
-        const siteUrl = 'https://beta.vedgupta.in';
+        const siteUrl = 'https://vedgupta.in';
         processedBody = processedBody.replace(/\]\(\/([^\)])/g, `](${siteUrl}/$1`);
 
         // Convert HTML <video> tags to markdown image syntax ![]()

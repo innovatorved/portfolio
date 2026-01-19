@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://beta.vedgupta.in/sitemap.xml
+Sitemap: https://vedgupta.in/sitemap.xml
