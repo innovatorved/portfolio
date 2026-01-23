@@ -1,18 +1,17 @@
+import { sqliteTable, text, integer, unique } from 'drizzle-orm/sqlite-core';
 
-import { pgTable, text, timestamp, integer, unique } from 'drizzle-orm/pg-core';
-
-export const posts = pgTable('posts', {
+export const posts = sqliteTable('posts', {
     id: text('id').primaryKey(),
     slug: text('slug').notNull(),
     title: text('title').notNull(),
     summary: text('summary'),
     content: text('content'), // Markdown content
-    publishedAt: timestamp('published_at', { withTimezone: true }),
+    publishedAt: integer('published_at', { mode: 'timestamp' }),
     status: text('status').default('Draft'),
     image: text('image'),
     type: text('type').notNull(), // 'blog' or 'project'
     version: integer('version').default(1),
-    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
+    updatedAt: integer('updated_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
 }, (t) => ({
     uniqueSlugType: unique('unique_slug_type').on(t.slug, t.type),
 }));

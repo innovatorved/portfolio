@@ -352,7 +352,7 @@ async function updateDatabaseSchema(dbId: string, name: string) {
         return;
     }
 
-    const workerUrl = "https://portfolio-cms-worker.innovatorved.workers.dev";
+    const workerUrl = "https://portfolio-cms-worker-beta.innovatorved.workers.dev";
     // Determine type based on name (hacky but works for this script context)
     const type = name.toLowerCase().includes('project') ? 'project' : 'blog';
 
@@ -376,5 +376,7 @@ async function updateDatabaseSchema(dbId: string, name: string) {
         // Don't fail the whole migration for this, just warn
     }
 }
+
+export default main;
 
 main();

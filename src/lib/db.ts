@@ -1,16 +1,16 @@
-
-import { drizzle } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
+import { drizzle } from 'drizzle-orm/libsql';
+import { createClient } from '@libsql/client';
 import { posts, type Post } from './schema';
 import { eq, and, desc } from 'drizzle-orm';
 
-const connectionString = import.meta.env.DATABASE_URI || process.env.DATABASE_URI;
-if (!connectionString) {
-    throw new Error('DATABASE_URI environment variable is not set');
+const url = import.meta.env.TURSO_CONNECTION_URL || process.env.TURSO_CONNECTION_URL;
+const authToken = import.meta.env.TURSO_AUTH_TOKEN || process.env.TURSO_AUTH_TOKEN;
+
+if (!url) {
+    throw new Error('TURSO_CONNECTION_URL environment variable is not set');
 }
 
-// Disable prefetch as it is not supported for "Transaction" pool mode
-const client = postgres(connectionString, { prepare: false });
+const client = createClient({ url, authToken });
 const db = drizzle(client);
 
 // Type definition for DBPost to match schema inference or extend if needed

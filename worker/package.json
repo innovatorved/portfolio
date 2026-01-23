@@ -1,5 +1,5 @@
 {
-    "name": "worker",
+    "name": "portfolio-cms-worker-beta",
     "version": "1.0.0",
     "private": true,
     "scripts": {
@@ -13,9 +13,9 @@
         "wrangler": "^4"
     },
     "dependencies": {
+        "@libsql/client": "^0.17.0",
         "@notionhq/client": "^5.7.0",
         "drizzle-orm": "^0.45.1",
-        "notion-to-md": "^3.1.9",
-        "postgres": "^3.4.8"
+        "notion-to-md": "^3.1.9"
     }
 }
