@@ -11,16 +11,17 @@
     "db:generate": "drizzle-kit generate"
   },
   "dependencies": {
+    "@astrojs/check": "^0.9.6",
     "@astrojs/mdx": "^4.3.13",
     "@astrojs/partytown": "^2.1.4",
     "@astrojs/rss": "^4.0.15",
     "@astrojs/sitemap": "^3.7.0",
     "@astrojs/vercel": "^9.0.4",
     "@libsql/client": "^0.17.0",
-    "@notionhq/client": "^5.7.0",
+    "@notionhq/client": "^5.8.0",
     "@tailwindcss/vite": "^4.1.18",
     "@tryfabric/martian": "^1.2.4",
-    "astro": "^5.16.11",
+    "astro": "^5.16.15",
     "drizzle-orm": "^0.45.1",
     "geist": "^1.5.1",
     "marked": "^17.0.1",
@@ -28,6 +29,7 @@
     "notion-to-md": "^3.1.9",
     "sugar-high": "^0.9.5",
     "tailwindcss": "^4.1.18",
+    "typescript": "^5.9.3",
     "uploadthing": "^7.7.4"
   },
   "devDependencies": {
