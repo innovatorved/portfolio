@@ -7,12 +7,12 @@ export const posts = sqliteTable('posts', {
     title: text('title').notNull(),
     summary: text('summary'),
     content: text('content'), // Markdown content
-    publishedAt: integer('published_at', { mode: 'timestamp' }),
+    publishedAt: integer('published_at', { mode: 'timestamp_ms' }),
     status: text('status').default('Draft'),
     image: text('image'),
     type: text('type').notNull(), // 'blog' or 'project'
     version: integer('version').default(1),
-    updatedAt: integer('updated_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
+    updatedAt: integer('updated_at', { mode: 'timestamp_ms' }).$defaultFn(() => new Date()),
 }, (t) => [
     unique('unique_slug_type').on(t.slug, t.type),
 ]);
