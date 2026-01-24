@@ -13,9 +13,9 @@ export const posts = sqliteTable('posts', {
     type: text('type').notNull(), // 'blog' or 'project'
     version: integer('version').default(1),
     updatedAt: integer('updated_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
-}, (t) => ({
-    uniqueSlugType: unique('unique_slug_type').on(t.slug, t.type),
-}));
+}, (t) => [
+    unique('unique_slug_type').on(t.slug, t.type),
+]);
 
 export type Post = typeof posts.$inferSelect;
 export type NewPost = typeof posts.$inferInsert;
