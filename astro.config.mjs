@@ -11,7 +11,7 @@ import partytown from '@astrojs/partytown';
 export default defineConfig({
   output: 'server',
   adapter: vercel(),
-  site: 'https://beta.vedgupta.in',
+  site: 'https://vedgupta.in',
 
   vite: {
     plugins: [tailwindcss()]
