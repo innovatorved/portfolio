@@ -1,11 +1,11 @@
-
 import { Client } from '@notionhq/client';
 import { NotionToMarkdown } from 'notion-to-md';
-import postgres from 'postgres';
+import { createClient } from '@libsql/client';
 
 export interface Env {
     NOTION_TOKEN: string;
-    DATABASE_URI: string;
+    TURSO_CONNECTION_URL: string;
+    TURSO_AUTH_TOKEN: string;
     NOTION_DATABASE_ID_BLOG: string;
     NOTION_DATABASE_ID_PROJECTS: string;
     WEBHOOK_SECRET?: string;
@@ -44,64 +44,72 @@ export default {
             });
             const n2m = new NotionToMarkdown({ notionClient: notion });
 
-            // Connect to Postgres directly (no Drizzle for better Workers compatibility)
-            const client = postgres(env.DATABASE_URI, { prepare: false, ssl: 'require' });
+            // Connect to Turso
+            const client = createClient({
+                url: env.TURSO_CONNECTION_URL,
+                authToken: env.TURSO_AUTH_TOKEN
+            });
 
             // 3. Fetch Page & Content
             const page = await notion.pages.retrieve({ page_id: pageId }) as any;
             const mdblocks = await n2m.pageToMarkdown(pageId);
             const mdString = n2m.toMarkdownString(mdblocks);
+            const content = mdString.parent || '';
 
             // Extract properties
             const slug = page.properties.Slug?.rich_text[0]?.plain_text || page.id;
             const title = page.properties.Name?.title[0]?.plain_text || 'Untitled';
             const summary = page.properties.Summary?.rich_text[0]?.plain_text || '';
-            const publishedAt = page.properties.PublishedAt?.date?.start ? new Date(page.properties.PublishedAt.date.start) : new Date();
+            const publishedAt = page.properties.PublishedAt?.date?.start ? new Date(page.properties.PublishedAt.date.start).getTime() : Date.now();
             const status = page.properties.Status?.select?.name || 'Draft';
             const image = page.properties.Image?.url || null;
 
-            // 4. Upsert to Postgres - handle unique constraint on (slug, type)
-            const contentLength = mdString.parent?.length || 0;
+            // 4. Upsert to Turso - handle unique constraint on (slug, type)
+            const contentLength = content.length;
             console.log(`Syncing: ${slug} (${type}), content: ${contentLength} chars`);
 
             try {
                 // First, delete any existing row with same slug+type but different id
                 // (handles case where page ID changed in Notion)
-                const deleteResult = await client.unsafe(`
-                    DELETE FROM posts WHERE slug = $1 AND type = $2 AND id != $3
-                `, [slug, type, page.id]);
+                const deleteResult = await client.execute({
+                    sql: 'DELETE FROM posts WHERE slug = ? AND type = ? AND id != ?',
+                    args: [slug, type, page.id]
+                });
 
-                console.log(`Deleted ${deleteResult.count} old row(s)`);
+                console.log(`Deleted ${deleteResult.rowsAffected} old row(s)`);
 
                 // Then upsert based on id
-                await client.unsafe(`
-                    INSERT INTO posts (id, slug, title, summary, content, published_at, status, image, type, version, updated_at)
-                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
-                    ON CONFLICT (id) 
-                    DO UPDATE SET 
-                        slug = $2,
-                        title = $3,
-                        summary = $4,
-                        content = $5,
-                        published_at = $6,
-                        status = $7,
-                        image = $8,
-                        type = $9,
-                        version = posts.version + 1,
-                        updated_at = $11
-                `, [
-                    page.id,
-                    slug,
-                    title,
-                    summary,
-                    mdString.parent,
-                    publishedAt,
-                    status,
-                    image,
-                    type,
-                    1,
-                    new Date()
-                ]);
+                await client.execute({
+                    sql: `
+                        INSERT INTO posts (id, slug, title, summary, content, published_at, status, image, type, version, updated_at)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        ON CONFLICT (id) 
+                        DO UPDATE SET 
+                            slug = excluded.slug,
+                            title = excluded.title,
+                            summary = excluded.summary,
+                            content = excluded.content,
+                            published_at = excluded.published_at,
+                            status = excluded.status,
+                            image = excluded.image,
+                            type = excluded.type,
+                            version = version + 1,
+                            updated_at = excluded.updated_at
+                    `,
+                    args: [
+                        page.id,
+                        slug,
+                        title,
+                        summary,
+                        content,
+                        publishedAt,
+                        status,
+                        image,
+                        type,
+                        1,
+                        Date.now()
+                    ]
+                });
                 console.log('✅ DB sync successful');
             } catch (dbErr: any) {
                 // Detailed error logging
@@ -110,15 +118,10 @@ export default {
                     message: dbErr.message || String(dbErr),
                     name: dbErr.name,
                     code: dbErr.code,
-                    detail: dbErr.detail,
-                    hint: dbErr.hint,
                     contentLength,
                 };
                 throw new Error(`DB error: ${JSON.stringify(errorInfo, null, 2)}`);
             }
-
-            // Close connection
-            await client.end();
 
             // 5. Return Success Response
             return Response.json({

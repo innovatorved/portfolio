@@ -47,8 +47,8 @@ export async function GET(context: APIContext) {
         customData: `
             <language>en-us</language>
             <copyright>© ${new Date().getFullYear()} Ved Gupta</copyright>
-            <managingEditor>ved@vedgupta.in (Ved Gupta)</managingEditor>
-            <webMaster>ved@vedgupta.in (Ved Gupta)</webMaster>
+            <managingEditor>me@vedgupta.in (Ved Gupta)</managingEditor>
+            <webMaster>me@vedgupta.in (Ved Gupta)</webMaster>
             <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
             <generator>Astro v5</generator>
         `,

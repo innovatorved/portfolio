@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 
-import { drizzle } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
+import { drizzle } from 'drizzle-orm/libsql';
+import { createClient } from '@libsql/client';
 import { posts } from '../src/lib/schema';
 import { getAllPosts, getPostById } from '../src/lib/notion';
 
@@ -9,11 +9,12 @@ import { getAllPosts, getPostById } from '../src/lib/notion';
 const BLOG_DB_ID = process.env.NOTION_BLOG_DB_ID;
 const PROJECTS_DB_ID = process.env.NOTION_PROJECTS_DB_ID;
 const NOTION_TOKEN = process.env.NOTION_TOKEN;
-const DATABASE_URI = process.env.DATABASE_URI;
+const URL = process.env.TURSO_CONNECTION_URL;
+const AUTH_TOKEN = process.env.TURSO_AUTH_TOKEN;
 
-if (!BLOG_DB_ID || !PROJECTS_DB_ID || !NOTION_TOKEN || !DATABASE_URI) {
+if (!BLOG_DB_ID || !PROJECTS_DB_ID || !NOTION_TOKEN || !URL) {
     console.error('❌ Missing required environment variables');
-    console.error('Required: NOTION_BLOG_DB_ID, NOTION_PROJECTS_DB_ID, NOTION_TOKEN, DATABASE_URI');
+    console.error('Required: NOTION_BLOG_DB_ID, NOTION_PROJECTS_DB_ID, NOTION_TOKEN, TURSO_CONNECTION_URL');
     process.exit(1);
 }
 
@@ -91,22 +92,20 @@ async function clearNotionDatabase(dbId: string, dbName: string) {
 }
 
 /**
- * Clear PostgreSQL database
+ * Clear Turso database
  */
-async function clearPostgresDatabase() {
-    console.log('\n🗑️  Clearing PostgreSQL database...');
+async function clearTursoDatabase() {
+    console.log('\n🗑️  Clearing Turso database...');
 
-    const client = postgres(DATABASE_URI!, { prepare: false, ssl: 'require' });
+    const client = createClient({ url: URL!, authToken: AUTH_TOKEN });
     const db = drizzle(client);
 
     try {
-        const result = await client`DELETE FROM posts`;
-        console.log(`✅ Deleted ${result.count} rows from posts table`);
+        const result = await client.execute('DELETE FROM posts');
+        console.log(`✅ Deleted ${result.rowsAffected} rows from posts table`);
     } catch (error) {
-        console.error('❌ Error clearing PostgreSQL:', error);
+        console.error('❌ Error clearing Turso:', error);
         throw error;
-    } finally {
-        await client.end();
     }
 }
 
@@ -126,12 +125,12 @@ async function runMigration() {
 }
 
 /**
- * Sync Notion to PostgreSQL
+ * Sync Notion to Turso
  */
-async function syncNotionToPostgres() {
-    console.log('\n🔄 Syncing Notion to PostgreSQL...');
+async function syncNotionToTurso() {
+    console.log('\n🔄 Syncing Notion to Turso...');
 
-    const client = postgres(DATABASE_URI!, { prepare: false, ssl: 'require' });
+    const client = createClient({ url: URL!, authToken: AUTH_TOKEN });
     const db = drizzle(client);
 
     try {
@@ -228,10 +227,8 @@ async function syncNotionToPostgres() {
 
         console.log('✅ Database sync complete!');
     } catch (error) {
-        console.error('❌ Error syncing to PostgreSQL:', error);
+        console.error('❌ Error syncing to Turso:', error);
         throw error;
-    } finally {
-        await client.end();
     }
 }
 
@@ -248,9 +245,9 @@ async function main() {
         await clearNotionDatabase(BLOG_DB_ID!, 'Blog');
         await clearNotionDatabase(PROJECTS_DB_ID!, 'Projects');
 
-        // Step 2: Clear PostgreSQL Database
-        console.log('\n📍 STEP 2: Clearing PostgreSQL Database');
-        await clearPostgresDatabase();
+        // Step 2: Clear Turso Database
+        console.log('\n📍 STEP 2: Clearing Turso Database');
+        await clearTursoDatabase();
 
         // Step 3: Wait a bit for Notion to settle
         console.log('\n⏳ Waiting 3 seconds for Notion to settle...');
@@ -264,7 +261,7 @@ async function main() {
         console.log('   1. Run: bun scripts/migrate.ts');
         console.log('      (This will migrate all MDX files to Notion)');
         console.log('   2. After migration completes, run this script with --sync-only flag');
-        console.log('      to sync Notion to PostgreSQL');
+        console.log('      to sync Notion to Turso');
         console.log('='.repeat(60));
 
     } catch (error) {
@@ -278,7 +275,7 @@ const args = process.argv.slice(2);
 if (args.includes('--sync-only')) {
     console.log('🚀 Running Sync Only Mode');
     console.log('='.repeat(60));
-    syncNotionToPostgres()
+    syncNotionToTurso()
         .then(() => {
             console.log('\n✅ All done!');
             process.exit(0);

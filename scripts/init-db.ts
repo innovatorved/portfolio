@@ -1,51 +1,39 @@
-
-import { drizzle } from 'drizzle-orm/postgres-js';
-import { migrate } from 'drizzle-orm/postgres-js/migrator';
-import postgres from 'postgres';
+import { drizzle } from 'drizzle-orm/libsql';
+import { createClient } from '@libsql/client';
 import { getAllPosts, getPostById } from '../src/lib/notion'; // Fetch from Notion - ensure this handles process.env
 import { posts } from '../src/lib/schema';
 import { sql } from 'drizzle-orm';
 
-import { pgTable, text, timestamp, integer, unique } from 'drizzle-orm/pg-core';
-
-// Define schema locally for script if import fails or to ensure direct control during init
-// But better to use the shared schema if possible.
-// For the purpose of "init-db", we primarily need to push the schema (or let Drizzle Kit handle it usually, but we are doing it manually here via sql or just inserts).
-// Let's rely on `postgres` raw for table creation if we don't have migrations set up, OR use Drizzle to insert.
-// Since Drizzle kit is for migrations, here we just want to Seed. ideally Drizzle Kit `push` should create tables.
-// But let's keep the manual table creation for robustness if Drizzle Kit isn't configured for a specific migration folder yet.
-// Actually, let's use the `src/lib/schema` definitions to drive inserts.
-
-if (!process.env.DATABASE_URI) {
-    throw new Error('DATABASE_URI is missing');
+if (!process.env.TURSO_CONNECTION_URL) {
+    throw new Error('TURSO_CONNECTION_URL is missing');
 }
 
-const connectionString = process.env.DATABASE_URI;
-const client = postgres(connectionString, { prepare: false, ssl: 'require' });
+const url = process.env.TURSO_CONNECTION_URL;
+const authToken = process.env.TURSO_AUTH_TOKEN;
+const client = createClient({ url, authToken });
 const db = drizzle(client);
 
 async function initDB() {
     console.log('Initializing Database...');
 
     // 1. Create Table (manual DDL for now to ensure exact schema matches Drizzle definition expectations)
-    // We could use `drizzle-kit push` but inside a script `sql` is easier for single table.
     console.log('Creating/Verifying table...');
-    await client`
+    await client.execute(`
         CREATE TABLE IF NOT EXISTS posts (
             id TEXT PRIMARY KEY,
             slug TEXT NOT NULL,
             title TEXT NOT NULL,
             summary TEXT,
             content TEXT,
-            published_at TIMESTAMP WITH TIME ZONE,
+            published_at INTEGER,
             status TEXT DEFAULT 'Draft',
             image TEXT,
             type TEXT NOT NULL,
             version INTEGER DEFAULT 1,
-            updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-            CONSTRAINT unique_slug_type UNIQUE (slug, type)
+            updated_at INTEGER,
+            UNIQUE (slug, type)
         );
-    `;
+    `);
 
     // 2. Fetch from Notion
     if (!process.env.NOTION_BLOG_DB_ID || !process.env.NOTION_PROJECTS_DB_ID || !process.env.NOTION_TOKEN) {
