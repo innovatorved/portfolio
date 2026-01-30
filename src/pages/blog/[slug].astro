@@ -22,7 +22,7 @@ const contentHtml = await marked.parse(post.content || "");
 // Cache for 60 seconds (s-maxage), stale-while-revalidate for 1 hour
 Astro.response.headers.set(
     "Cache-Control",
-    "public, max-age=0, s-maxage=60, stale-while-revalidate=3600",
+    "public, max-age=0, s-maxage=600, stale-while-revalidate=3600",
 );
 
 const ogImage = post.image || `/og?title=${encodeURIComponent(post.title)}`;

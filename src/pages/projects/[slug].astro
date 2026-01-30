@@ -32,7 +32,7 @@ contentHtml = contentHtml.replace(
 // Vercel Edge Caching (ISR-like behavior)
 Astro.response.headers.set(
     "Cache-Control",
-    "public, max-age=0, s-maxage=60, stale-while-revalidate=3600",
+    "public, max-age=0, s-maxage=600, stale-while-revalidate=3600",
 );
 
 const ogImage =
