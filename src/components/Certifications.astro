@@ -61,6 +61,10 @@ import { certifications } from "@/lib/certifications";
                 href={c.url}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-event="certification_credential_click"
+                data-cert-title={c.title}
+                data-issuer={c.issuer}
+                data-link-url={c.url}
                 class="inline-flex items-center text-[12px] font-medium text-neutral-800 dark:text-neutral-200 underline decoration-dotted underline-offset-4 group-hover:decoration-solid"
               >
                 View Credential

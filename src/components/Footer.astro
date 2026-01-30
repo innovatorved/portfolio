@@ -2,28 +2,65 @@
 const currentYear = new Date().getFullYear();
 
 const footerLinks = [
-  { href: '/', label: 'Home', external: false },
-  { href: '/about', label: 'About', external: false },
-  { href: 'https://twitter.com/innovatorved', label: 'Twitter', external: true },
-  { href: 'https://github.com/innovatorved', label: 'GitHub', external: true },
-  { href: 'https://status.vedgupta.in/', label: 'Status', external: true },
-  { href: '/resume', label: 'Resume', external: false },
+  { href: "/", label: "Home", external: false, eventType: "footer_click" },
+  {
+    href: "/about",
+    label: "About",
+    external: false,
+    eventType: "footer_click",
+  },
+  {
+    href: "https://twitter.com/innovatorved",
+    label: "Twitter",
+    external: true,
+    eventType: "social_click",
+    platform: "twitter",
+  },
+  {
+    href: "https://github.com/innovatorved",
+    label: "GitHub",
+    external: true,
+    eventType: "social_click",
+    platform: "github",
+  },
+  {
+    href: "https://status.vedgupta.in/",
+    label: "Status",
+    external: true,
+    eventType: "outbound_click",
+  },
+  {
+    href: "/resume",
+    label: "Resume",
+    external: false,
+    eventType: "footer_click",
+  },
 ];
 ---
 
 <footer class="mb-16">
-  <ul class="font-sm mt-8 flex flex-col space-x-0 space-y-2 text-neutral-600 md:flex-row md:space-x-4 md:space-y-0 dark:text-neutral-300">
-    {footerLinks.map(({ href, label, external }) => (
-      <li>
-        <a
-          class="flex items-center transition-all hover:text-neutral-800 dark:hover:text-neutral-100"
-          href={href}
-          {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-        >
-          {label}
-        </a>
-      </li>
-    ))}
+  <ul
+    class="font-sm mt-8 flex flex-col space-x-0 space-y-2 text-neutral-600 md:flex-row md:space-x-4 md:space-y-0 dark:text-neutral-300"
+  >
+    {
+      footerLinks.map(({ href, label, external, eventType, platform }) => (
+        <li>
+          <a
+            class="flex items-center transition-all hover:text-neutral-800 dark:hover:text-neutral-100"
+            href={href}
+            data-event={eventType}
+            data-link-text={label}
+            data-link-url={href}
+            data-platform={platform || ""}
+            {...(external
+              ? { target: "_blank", rel: "noopener noreferrer" }
+              : {})}
+          >
+            {label}
+          </a>
+        </li>
+      ))
+    }
   </ul>
   <p class="mt-8 text-neutral-600 text-xs dark:text-neutral-300">
     © {currentYear} Ved Prakash Gupta
