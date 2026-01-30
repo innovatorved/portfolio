@@ -20,6 +20,7 @@ export default defineConfig({
   integrations: [mdx(), partytown({
     config: {
       forward: ["dataLayer.push"],
+      debug: false,
     },
   })],
 
