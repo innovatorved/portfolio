@@ -21,7 +21,7 @@
     "@notionhq/client": "^5.8.0",
     "@tailwindcss/vite": "^4.1.18",
     "@tryfabric/martian": "^1.2.4",
-    "astro": "^5.16.15",
+    "astro": "5.17.1",
     "drizzle-orm": "^0.45.1",
     "geist": "^1.5.1",
     "marked": "^17.0.1",
