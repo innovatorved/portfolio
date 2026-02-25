@@ -30,10 +30,10 @@ contentHtml = contentHtml.replace(
 );
 
 // Vercel Edge Caching (ISR-like behavior)
-Astro.response.headers.set(
-    "Cache-Control",
-    "public, max-age=0, s-maxage=600, stale-while-revalidate=3600",
-);
+// Astro.response.headers.set(
+//     "Cache-Control",
+//     "public, max-age=0, s-maxage=600, stale-while-revalidate=3600",
+// );
 
 const ogImage =
     project.image || `/og?title=${encodeURIComponent(project.title)}`;
