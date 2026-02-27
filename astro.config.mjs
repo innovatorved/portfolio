@@ -51,6 +51,6 @@ export default defineConfig({
 
   // Production optimizations
   build: {
-    inlineStylesheets: 'auto'
+    inlineStylesheets: 'always'
   },
 });
