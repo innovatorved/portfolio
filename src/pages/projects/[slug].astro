@@ -1,26 +1,23 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { formatDate } from "@/lib/utils";
-import { getPostBySlug } from "@/lib/db";
+import { getAllPosts } from "@/lib/db";
 import { marked } from "marked";
 
-const { slug } = Astro.params;
-
-if (!slug) {
-    return Astro.redirect("/404");
+export async function getStaticPaths() {
+    const projects = await getAllPosts("project");
+    return projects.map((project) => ({
+        params: { slug: project.slug },
+        props: { project },
+    }));
 }
 
-const project = await getPostBySlug(slug, "project");
-
-if (!project) {
-    return Astro.redirect("/404");
-}
+const { project } = Astro.props;
 
 // Parse markdown to HTML
 let contentHtml = await marked.parse(project.content || "");
 
 // Post-process to convert video URLs to video tags
-const videoExtensions = [".mp4", ".mov", ".webm", ".ogg"];
 contentHtml = contentHtml.replace(
     /<a href="([^"]+#\.mp4|[^"]+\.(?:mp4|mov|webm|ogg))"[^>]*>([^<]*)<\/a>/gi,
     (match, url, text) => {
@@ -28,12 +25,6 @@ contentHtml = contentHtml.replace(
         return `<video controls src="${cleanUrl}" style="width: 100%; max-width: 100%; height: auto; border-radius: 8px; margin: 1rem 0;"></video>`;
     },
 );
-
-// Vercel Edge Caching (ISR-like behavior)
-// Astro.response.headers.set(
-//     "Cache-Control",
-//     "public, max-age=0, s-maxage=600, stale-while-revalidate=3600",
-// );
 
 const ogImage =
     project.image || `/og?title=${encodeURIComponent(project.title)}`;

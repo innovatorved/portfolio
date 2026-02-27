@@ -55,7 +55,7 @@ export async function GET(context: APIContext) {
     });
 
     // Add ISR-like caching
-    response.headers.set('Cache-Control', 'public, max-age=0, s-maxage=300, stale-while-revalidate=3600');
+    // response.headers.set('Cache-Control', 'public, max-age=0, s-maxage=300, stale-while-revalidate=3600');
 
     return response;
 }

@@ -1,12 +1,6 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import ProjectPosts from "@/components/ProjectPosts.astro";
-
-// ISR-like behavior: Cache for 60s, stale-while-revalidate for 1 hour
-// Astro.response.headers.set(
-//     "Cache-Control",
-//     "public, max-age=0, s-maxage=600, stale-while-revalidate=3600",
-// );
 ---
 
 <BaseLayout

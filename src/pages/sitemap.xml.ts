@@ -73,7 +73,7 @@ export async function GET(context: APIContext) {
     headers: {
       'Content-Type': 'application/xml; charset=utf-8',
       // ISR-like caching: cache for 1 hour, stale for 1 hour
-      'Cache-Control': 'public, max-age=0, s-maxage=3600, stale-while-revalidate=3600',
+      // 'Cache-Control': 'public, max-age=0, s-maxage=3600, stale-while-revalidate=3600',
     },
   });
 }
