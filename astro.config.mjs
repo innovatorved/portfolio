@@ -1,56 +1,57 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
-import tailwindcss from '@tailwindcss/vite';
-import mdx from '@astrojs/mdx';
-import sitemap from '@astrojs/sitemap';
-import vercel from '@astrojs/vercel';
-
-import partytown from '@astrojs/partytown';
+import { defineConfig } from "astro/config";
+import tailwindcss from "@tailwindcss/vite";
+import mdx from "@astrojs/mdx";
+import sitemap from "@astrojs/sitemap";
+import partytown from "@astrojs/partytown";
 
 // https://astro.build/config
 export default defineConfig({
-  output: 'static',
-  adapter: vercel(),
-  site: 'https://vedgupta.in',
+  output: "static",
+  site: "https://vedgupta.in",
 
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
   },
 
-  integrations: [mdx(), partytown({
-    config: {
-      forward: ["dataLayer.push"],
-      debug: false,
-    },
-  })],
+  integrations: [
+    mdx(),
+    sitemap(),
+    partytown({
+      config: {
+        forward: ["dataLayer.push"],
+        debug: false,
+      },
+    }),
+  ],
 
   image: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: '**.ufs.sh'
+        protocol: "https",
+        hostname: "**.ufs.sh",
       },
       {
-        protocol: 'https',
-        hostname: '2n8oqvqetc.ufs.sh'
+        protocol: "https",
+        hostname: "2n8oqvqetc.ufs.sh",
       },
       {
-        protocol: 'https',
-        hostname: 'j9277ckk5t.ufs.sh'
+        protocol: "https",
+        hostname: "j9277ckk5t.ufs.sh",
       },
       {
-        protocol: 'https',
-        hostname: '**.uploadthing.com'
+        protocol: "https",
+        hostname: "**.uploadthing.com",
       },
       {
         protocol: "https",
         hostname: "**.amazonaws.com",
       },
-    ]
+    ],
   },
 
   // Production optimizations
   build: {
-    inlineStylesheets: 'always'
+    inlineStylesheets: "always",
   },
 });

@@ -41,3 +41,6 @@ bun.lockb
 
 .vercel
 .env*.local
+
+# Cloudflare
+.wrangler/
