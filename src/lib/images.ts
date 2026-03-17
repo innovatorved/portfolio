@@ -13,11 +13,21 @@ async function saveFile(relativePath: string, buffer: ArrayBuffer): Promise<bool
       const fs = await import("fs");
       const path = await import("path");
 
-      const fullPath = `${process.cwd()}/public${relativePath}`;
-      const dir = path.dirname(fullPath);
+      const publicDir = `${process.cwd()}/public`;
+      const distDir = `${process.cwd()}/dist`;
 
-      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-      fs.writeFileSync(fullPath, Buffer.from(buffer));
+      const saveTo = [publicDir];
+      // During build, also save to dist/ to ensure media is included
+      if (fs.existsSync(distDir)) {
+        saveTo.push(distDir);
+      }
+
+      for (const base of saveTo) {
+        const fullPath = `${base}${relativePath}`;
+        const dir = path.dirname(fullPath);
+        if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+        fs.writeFileSync(fullPath, Buffer.from(buffer));
+      }
       return true;
     } catch (e) {
       console.warn(`[media] Save error (Node environment): ${e}`);
@@ -31,8 +41,9 @@ async function fileExists(relativePath: string): Promise<boolean> {
   if (typeof process !== 'undefined' && process.versions && process.versions.node) {
     try {
       const fs = await import("fs");
-      const fullPath = `${process.cwd()}/public${relativePath}`;
-      return fs.existsSync(fullPath);
+      const publicPath = `${process.cwd()}/public${relativePath}`;
+      const distPath = `${process.cwd()}/dist${relativePath}`;
+      return fs.existsSync(publicPath) || fs.existsSync(distPath);
     } catch {
       return false;
     }
@@ -99,7 +110,7 @@ export async function resolveImage(url: string | null | undefined, slug: string,
       const saved = await saveFile(publicPath, await res.arrayBuffer());
       if (saved) {
         downloadedSet.add(hash);
-        console.log(`[media] Saved ${isVideo ? 'video' : 'image'}: ${publicPath} (requested for ${type}/${slug})`);
+        console.log(`[media] Saved ${isVideo ? 'video' : 'image'}: ${publicPath}`);
         return publicPath + (isHashMp4 ? "#.mp4" : "");
       } else {
         // If we failed to save (e.g. Edge runtime), return the original URL
