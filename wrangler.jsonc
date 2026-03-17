@@ -1,8 +1,12 @@
 {
   "compatibility_date": "2026-03-12",
-  "compatibility_flags": ["global_fetch_strictly_public", "nodejs_compat"],
+  "compatibility_flags": [
+    "global_fetch_strictly_public",
+    "nodejs_compat"
+  ],
   "name": "portfolio",
-  "assets": {
-    "directory": "./dist",
-  },
+  "pages_build_output_dir": "./dist",
+  "observability": {
+    "enabled": true
+  }
 }

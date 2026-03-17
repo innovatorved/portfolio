@@ -2,10 +2,12 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { formatDate } from "@/lib/utils";
 import { getAllPosts } from "@/lib/db";
+import { resolvePostImages } from "@/lib/images";
 import { marked } from "marked";
 
 export async function getStaticPaths() {
-    const projects = await getAllPosts("project");
+    const rawProjects = await getAllPosts("project");
+    const projects = await resolvePostImages(rawProjects, "project");
     return projects.map((project) => ({
         params: { slug: project.slug },
         props: { project },
