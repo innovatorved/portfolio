@@ -1,8 +1,14 @@
----
-// Roaming Mona Component that persists across view transitions
----
-<div id="roaming-mascot" transition:persist="roaming-mascot" class="fixed top-0 left-0 pointer-events-none z-[9999]" style="transform: translate(0px, 0px);">
-  <img src="/mascot.gif" alt="Loading Mascot" class="w-12 h-12 opacity-80 hover:opacity-100 transition-opacity drop-shadow-xl pointer-events-auto cursor-pointer" />
+<div
+  id="roaming-mascot"
+  transition:persist="roaming-mascot"
+  class="fixed top-0 left-0 pointer-events-none z-[9999]"
+  style="transform: translate(0px, 0px);"
+>
+  <img
+    src="/mascot.gif"
+    alt="Loading Mascot"
+    class="w-10 h-10 opacity-80 hover:opacity-100 transition-opacity drop-shadow-xl pointer-events-auto cursor-pointer"
+  />
 </div>
 <script>
   // Organic 'Firefly' drift mixed with Flappy Bird jump physics
@@ -17,9 +23,9 @@
   const gravity = 0.6; // Game gravity
 
   // Jump trigger on Spacebar press
-  window.addEventListener('keydown', (e) => {
+  window.addEventListener("keydown", (e) => {
     // If Space is pressed, and not interacting with an input
-    if (e.code === 'Space' && e.target === document.body) {
+    if (e.code === "Space" && e.target === document.body) {
       e.preventDefault(); // Prevent page scroll
       isJumping = true;
       vy = -12; // Upward impulse (Flappy bird style)
@@ -27,23 +33,24 @@
   });
 
   // Click interaction trigger
-  document.addEventListener('click', (e) => {
-    const img = document.querySelector('#roaming-mascot img');
+  document.addEventListener("click", (e) => {
+    const img = document.querySelector("#roaming-mascot img");
     if (e.target === img) {
       // Startled jump!
       isJumping = true;
       vx = (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 20 + 15); // Shoot left or right fast
       vy = -15; // Jump up
-      
+
       // Visual "boop" and spin effect
       if (img instanceof HTMLElement) {
-        img.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-        img.style.transform = 'scale(1.5) rotate(360deg)';
-        
+        img.style.transition =
+          "transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)";
+        img.style.transform = "scale(1.5) rotate(360deg)";
+
         setTimeout(() => {
-          img.style.transform = 'scale(1) rotate(0deg)';
+          img.style.transform = "scale(1) rotate(0deg)";
           setTimeout(() => {
-            img.style.transition = ''; // Clean up
+            img.style.transition = ""; // Clean up
           }, 400);
         }, 400);
       }
@@ -51,7 +58,7 @@
   });
 
   function animate() {
-    const el = document.getElementById('roaming-mascot');
+    const el = document.getElementById("roaming-mascot");
     if (el) {
       const w = window.innerWidth;
       const h = window.innerHeight;
@@ -59,14 +66,17 @@
 
       if (!isJumping) {
         // Firefly mode
-        if (Math.random() < 0.015 || (Math.abs(targetX - x) < 20 && Math.abs(targetY - y) < 20)) {
+        if (
+          Math.random() < 0.015 ||
+          (Math.abs(targetX - x) < 20 && Math.abs(targetY - y) < 20)
+        ) {
           targetX = Math.random() * (w - size);
           targetY = Math.random() * (h - size);
         }
-        vx += (targetX - x) * 0.00015;
-        vy += (targetY - y) * 0.00015;
-        vx *= 0.98;
-        vy *= 0.98;
+        vx += (targetX - x) * 0.00005;
+        vy += (targetY - y) * 0.00005;
+        vx *= 0.94;
+        vy *= 0.94;
       } else {
         // Platformer / Flappy mode
         vy += gravity; // Pull down
@@ -77,9 +87,18 @@
       y += vy;
 
       // Screen bounds
-      if (x <= 0) { x = 0; vx *= -0.5; }
-      if (x + size >= w) { x = w - size; vx *= -0.5; }
-      if (y <= 0) { y = 0; vy *= -0.5; }
+      if (x <= 0) {
+        x = 0;
+        vx *= -0.5;
+      }
+      if (x + size >= w) {
+        x = w - size;
+        vx *= -0.5;
+      }
+      if (y <= 0) {
+        y = 0;
+        vy *= -0.5;
+      }
 
       // Floor collision
       if (y + size >= h) {
@@ -100,7 +119,7 @@
       }
 
       // Add tilt (if jumping, tilt with vertical velocity like Flappy Bird, else based on horizontal)
-      const tilt = isJumping ? (vy * 2) : (vx * 6);
+      const tilt = isJumping ? vy * 2 : vx * 6;
 
       // We use 3d transform for hardware acceleration
       el.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${tilt}deg)`;
