@@ -1,21 +1,21 @@
 {
-    "name": "portfolio-cms-worker",
-    "version": "1.0.0",
-    "private": true,
-    "scripts": {
-        "dev": "wrangler dev",
-        "deploy": "wrangler deploy",
-        "tail": "wrangler tail"
-    },
-    "devDependencies": {
-        "@cloudflare/workers-types": "^4.20241127.0",
-        "drizzle-kit": "^0.31.8",
-        "wrangler": "^4"
-    },
-    "dependencies": {
-        "@libsql/client": "^0.17.0",
-        "@notionhq/client": "^5.7.0",
-        "drizzle-orm": "^0.45.1",
-        "notion-to-md": "^3.1.9"
-    }
+  "name": "portfolio-cms-worker",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260621.1",
+    "drizzle-kit": "^0.31.10",
+    "wrangler": "^4.103.0"
+  },
+  "dependencies": {
+    "@libsql/client": "^0.17.4",
+    "@notionhq/client": "^5.22.0",
+    "drizzle-orm": "^0.45.2",
+    "notion-to-md": "^3.1.9"
+  }
 }

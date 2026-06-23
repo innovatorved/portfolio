@@ -9,7 +9,6 @@ const authToken =
   import.meta.env.TURSO_AUTH_TOKEN || process.env.TURSO_AUTH_TOKEN;
 
 if (!url) {
-  console.log("this is the url:342");
   throw new Error("TURSO_CONNECTION_URL environment variable is not set");
 }
 

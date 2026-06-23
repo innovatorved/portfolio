@@ -12,28 +12,26 @@
     "generate-types": "wrangler types"
   },
   "dependencies": {
-    "@astrojs/check": "0.9.8",
-    "@astrojs/mdx": "5.0.3",
-    "@astrojs/partytown": "2.1.6",
+    "@astrojs/check": "0.9.9",
+    "@astrojs/mdx": "7.0.0",
+    "@astrojs/partytown": "2.1.7",
     "@astrojs/rss": "4.0.18",
-    "@astrojs/sitemap": "3.7.2",
-    "@libsql/client": "^0.17.0",
-    "@notionhq/client": "^5.13.0",
-    "@tailwindcss/vite": "^4.2.1",
+    "@astrojs/sitemap": "3.7.3",
+    "@libsql/client": "^0.17.4",
+    "@notionhq/client": "^5.22.0",
+    "@tailwindcss/vite": "^4.3.1",
     "@tryfabric/martian": "^1.2.4",
-    "astro": "6.1.5",
-    "drizzle-orm": "^0.45.1",
-    "geist": "^1.7.0",
-    "marked": "^17.0.4",
-    "notion-astro-loader": "^0.4.0",
+    "astro": "7.0.0",
+    "drizzle-orm": "^0.45.2",
+    "geist": "^1.7.2",
+    "marked": "^18.0.5",
     "notion-to-md": "^3.1.9",
-    "sugar-high": "^0.9.5",
-    "tailwindcss": "^4.2.1",
-    "typescript": "^5.9.3",
+    "tailwindcss": "^4.3.1",
+    "typescript": "^6.0.3",
     "uploadthing": "^7.7.4"
   },
   "devDependencies": {
     "drizzle-kit": "^0.31.10",
-    "wrangler": "^4.75.0"
+    "wrangler": "^4.103.0"
   }
 }

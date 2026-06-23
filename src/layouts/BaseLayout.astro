@@ -163,7 +163,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <slot name="head" />
 
     <!-- Google Tag Manager -->
-    <script type="text/partytown">
+    <script is:inline type="text/partytown">
       (function (w, d, s, l, i) {
         w[l] = w[l] || [];
         w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });

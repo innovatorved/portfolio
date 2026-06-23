@@ -50,7 +50,7 @@ export async function GET(context: APIContext) {
             <managingEditor>me@vedgupta.in (Ved Gupta)</managingEditor>
             <webMaster>me@vedgupta.in (Ved Gupta)</webMaster>
             <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
-            <generator>Astro v5</generator>
+            <generator>Astro v7</generator>
         `,
     });
 

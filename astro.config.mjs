@@ -8,6 +8,8 @@ import partytown from "@astrojs/partytown";
 export default defineConfig({
   output: "static",
   site: "https://vedgupta.in",
+  // Static site — disable advanced routing (src/fetch.ts reserved in Astro 7)
+  fetchFile: null,
   vite: {
     plugins: [tailwindcss()],
   },
