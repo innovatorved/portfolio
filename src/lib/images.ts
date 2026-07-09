@@ -229,13 +229,52 @@ export async function resolveContentImages(content: string | null | undefined, s
   console.log(`[media] Found ${urls.size} potential media link(s) in ${type}/${slug}`);
 
   let resolved = content;
-  await Promise.all([...urls].map(async (u) => {
-    const local = await resolveImage(u, slug, type);
-    if (local && local !== u) {
-      console.log(`[media] Replacing ${u} -> ${local}`);
-      resolved = resolved.split(u).join(local);
-    }
-  }));
+  const replacements = new Map<string, string>();
+
+  await Promise.all(
+    [...urls].map(async (u) => {
+      const local = await resolveImage(u, slug, type);
+      if (local && local !== u) replacements.set(u, local);
+    })
+  );
+
+  for (const [from, to] of replacements) {
+    console.log(`[media] Replacing ${from} -> ${to}`);
+    resolved = resolved.split(from).join(to);
+  }
+
+  return resolved;
+}
+
+export async function resolveHtmlMedia(
+  html: string,
+  slug: string,
+  type: "blog" | "project"
+): Promise<string> {
+  if (!html || !DOWNLOAD_MEDIA) return html;
+
+  const urls = new Set<string>();
+  for (const match of html.matchAll(/r2:\/\/[^\s"'<>]+/g)) {
+    urls.add(match[0]);
+  }
+  if (urls.size === 0) return html;
+
+  console.log(`[media] Found ${urls.size} r2:// ref(s) in HTML for ${type}/${slug}`);
+
+  let resolved = html;
+  const replacements = new Map<string, string>();
+
+  await Promise.all(
+    [...urls].map(async (u) => {
+      const local = await resolveImage(u, slug, type);
+      if (local && local !== u) replacements.set(u, local);
+    })
+  );
+
+  for (const [from, to] of replacements) {
+    console.log(`[media] HTML replace ${from} -> ${to}`);
+    resolved = resolved.split(from).join(to);
+  }
 
   return resolved;
 }

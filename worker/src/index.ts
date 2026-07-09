@@ -20,31 +20,13 @@ export default {
         }
 
         const secret = url.searchParams.get('secret');
+        const pageId = url.searchParams.get('pageId');
+        const typeStr = url.searchParams.get('type');
 
-        // 1. Validate Secret (guards both media serving and content sync)
+        // 1. Validate Secret
         if (!env.WEBHOOK_SECRET || secret !== env.WEBHOOK_SECRET) {
             return new Response('Unauthorized: Invalid Secret', { status: 401 });
         }
-
-        // Media serving: GET /media/<key>?secret=... streams the R2 object.
-        // Used by the Astro build to download cached media into local /assets.
-        if (url.pathname.startsWith('/media/')) {
-            // Key comes only from the URL path and is used as an R2 object lookup
-            // (storage key, not a filesystem path), so no path-traversal risk.
-            const key = decodeURIComponent(url.pathname.slice(1));
-            const object = await env.MEDIA_BUCKET.get(key);
-            if (!object) {
-                return new Response('Not Found', { status: 404 });
-            }
-            const headers = new Headers();
-            object.writeHttpMetadata(headers);
-            headers.set('etag', object.httpEtag);
-            headers.set('cache-control', 'public, max-age=31536000, immutable');
-            return new Response(object.body, { headers });
-        }
-
-        const pageId = url.searchParams.get('pageId');
-        const typeStr = url.searchParams.get('type');
 
         if (!pageId) {
             return new Response('Missing pageId', { status: 400 });
