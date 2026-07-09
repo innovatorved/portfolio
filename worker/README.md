@@ -1,10 +1,10 @@
-# Portfolio CMS Worker
+# CMS Worker
 
-Syncs published Notion pages to Turso and caches media to R2.
+Syncs published Notion pages to Turso and caches media in R2.
 
 ## Secrets
 
-Set in Cloudflare Dashboard → Workers → portfolio-cms-worker → Settings → Variables:
+Cloudflare Dashboard → Workers → portfolio-cms-worker → Settings → Variables:
 
 - `NOTION_TOKEN`
 - `TURSO_CONNECTION_URL`
@@ -17,10 +17,4 @@ Set in Cloudflare Dashboard → Workers → portfolio-cms-worker → Settings �
 cd worker
 bun install
 bun run deploy
-```
-
-## Dev
-
-```bash
-bun run dev
 ```

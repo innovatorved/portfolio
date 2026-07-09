@@ -1,21 +1,36 @@
-# Ved Gupta's Portfolio
+# Portfolio
 
-My personal portfolio website built with **Astro** and **Notion** as the CMS.
+Personal site built with Astro. Content comes from Notion via a Cloudflare Worker and Turso.
 
-## Tech Stack
+## Stack
 
-- **Framework**: [Astro](https://astro.build/) - Fast, content-focused static site generator
-- **CMS**: [Notion](https://notion.so/) - Content management for blog posts and projects
-- **Styling**: Tailwind CSS
-- **Deployment**: Vercel
-- **Analytics**: Google Tag Manager (via Partytown for performance)
+- Astro (static site)
+- Notion (CMS)
+- Turso (database)
+- Cloudflare Pages (hosting)
+- Cloudflare Worker + R2 (content sync and media cache)
 
-## Features
+## Setup
 
-- 📝 Blog posts managed via Notion
-- 🚀 Projects showcase with Notion integration
-- 🎓 Certifications page with JSON-LD structured data for SEO
-- 📄 Resume/About page
-- 🌙 Dark mode support
-- ⚡ Optimized for performance with Astro's static generation
-- 🔍 SEO optimized with proper meta tags and structured data
+```bash
+bun install
+cp .env.example .env
+```
+
+Fill in `.env` (see `.env.example`).
+
+## Commands
+
+```bash
+bun run dev      # local dev
+bun run build    # static build
+bun run preview  # preview build
+```
+
+## Publish flow
+
+1. Publish in Notion and click the Deploy link (triggers the worker).
+2. Worker syncs content to Turso and caches media in R2.
+3. Cloudflare Pages rebuilds the site; build downloads media into `/assets/`.
+
+Worker setup: [worker/README.md](worker/README.md)
