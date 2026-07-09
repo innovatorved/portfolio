@@ -5,5 +5,8 @@
     "global_fetch_strictly_public",
     "nodejs_compat"
   ],
-  "pages_build_output_dir": "./dist"
+  "pages_build_output_dir": "./dist",
+  "vars": {
+    "R2_BUCKET_NAME": "portfolio"
+  }
 }

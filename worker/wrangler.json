@@ -5,6 +5,12 @@
     "compatibility_flags": [
         "nodejs_compat"
     ],
+    "r2_buckets": [
+        {
+            "binding": "MEDIA_BUCKET",
+            "bucket_name": "portfolio"
+        }
+    ],
     "observability": {
         "enabled": false,
         "head_sampling_rate": 1,

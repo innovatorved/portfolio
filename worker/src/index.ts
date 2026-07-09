@@ -1,13 +1,12 @@
 import { Client } from '@notionhq/client';
 import { NotionToMarkdown } from 'notion-to-md';
 import { createClient } from '@libsql/client';
+import { cacheMediaToR2, rewriteContentMediaUrls, type MediaEnv } from './media';
 
-export interface Env {
+export interface Env extends MediaEnv {
     NOTION_TOKEN: string;
     TURSO_CONNECTION_URL: string;
     TURSO_AUTH_TOKEN: string;
-    NOTION_DATABASE_ID_BLOG: string;
-    NOTION_DATABASE_ID_PROJECTS: string;
     WEBHOOK_SECRET?: string;
 }
 
@@ -62,10 +61,14 @@ export default {
             const summary = page.properties.Summary?.rich_text[0]?.plain_text || '';
             const publishedAt = page.properties.PublishedAt?.date?.start ? new Date(page.properties.PublishedAt.date.start).getTime() : Date.now();
             const status = page.properties.Status?.select?.name || 'Draft';
-            const image = page.properties.Image?.url || null;
+            const rawImage = page.properties.Image?.url || null;
+
+            // Cache cover image and inline content media to R2 while Notion URLs are still valid
+            const image = await cacheMediaToR2(rawImage, env);
+            const cachedContent = await rewriteContentMediaUrls(content, env);
 
             // 4. Upsert to Turso - handle unique constraint on (slug, type)
-            const contentLength = content.length;
+            const contentLength = cachedContent?.length ?? 0;
             console.log(`Syncing: ${slug} (${type}), content: ${contentLength} chars`);
 
             try {
@@ -101,7 +104,7 @@ export default {
                         slug,
                         title,
                         summary,
-                        content,
+                        cachedContent,
                         publishedAt,
                         status,
                         image,

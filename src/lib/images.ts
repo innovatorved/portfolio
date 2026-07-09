@@ -3,6 +3,8 @@
  * Dynamically imports Node APIs only during build to stay Cloudflare Worker friendly.
  */
 
+import { fetchR2Object, isR2Ref, parseR2Ref } from "./r2";
+
 export const DOWNLOAD_MEDIA = true;
 const downloadedSet = new Set<string>();
 
@@ -61,6 +63,11 @@ function getExtFromUrl(url: string): string {
   }
 }
 
+function getExtFromKey(key: string): string {
+  const extMatch = key.match(/(\.[a-z0-9]+)$/i);
+  return extMatch ? extMatch[1].toLowerCase() : "";
+}
+
 async function hashUrl(url: string): Promise<string> {
   const data = new TextEncoder().encode(url);
   const hashBuffer = await crypto.subtle.digest("SHA-256", data);
@@ -78,8 +85,81 @@ function getMimeExt(contentType: string): string {
     (contentType.startsWith("video/") ? ".mp4" : ".png");
 }
 
+function isVideoMedia(ext: string, contentType: string, videoMarker: string): boolean {
+  return (
+    Boolean(videoMarker) ||
+    contentType.startsWith("video/") ||
+    Boolean(ext.match(/\.(mp4|webm|ogg|mov)$/i))
+  );
+}
+
+async function localizeMediaBuffer(
+  buffer: ArrayBuffer,
+  contentType: string,
+  ext: string,
+  videoMarker: string,
+  cacheKey: string
+): Promise<string | null> {
+  const isVideo = isVideoMedia(ext, contentType, videoMarker);
+  const baseDir = isVideo ? "assets/videos" : "assets/images";
+  const publicPath = `/${baseDir}/${cacheKey}${ext}`;
+
+  if (await fileExists(publicPath)) {
+    return publicPath + videoMarker;
+  }
+
+  if (!downloadedSet.has(cacheKey)) {
+    const saved = await saveFile(publicPath, buffer);
+    if (saved) {
+      downloadedSet.add(cacheKey);
+      console.log(`[media] Saved ${isVideo ? 'video' : 'image'}: ${publicPath}`);
+      return publicPath + videoMarker;
+    }
+    return null;
+  }
+
+  return publicPath + videoMarker;
+}
+
+async function resolveR2Media(url: string): Promise<string | null> {
+  const parsed = parseR2Ref(url);
+  if (!parsed) return url;
+
+  const { key, videoMarker } = parsed;
+  const cacheKey = key.replace(/^media\//, "").replace(/\.[^.]+$/, "");
+  const ext = getExtFromKey(key) || ".png";
+  const publicPath = `/${isVideoMedia(ext, "", videoMarker) ? "assets/videos" : "assets/images"}/${cacheKey}${ext}`;
+
+  if (await fileExists(publicPath)) {
+    return publicPath + videoMarker;
+  }
+
+  const response = await fetchR2Object(key);
+  if (!response) return url;
+
+  const contentType = response.headers.get("content-type") || "application/octet-stream";
+  const localized = await localizeMediaBuffer(
+    await response.arrayBuffer(),
+    contentType,
+    ext,
+    videoMarker,
+    cacheKey
+  );
+
+  return localized ?? url;
+}
+
 export async function resolveImage(url: string | null | undefined, slug: string, type: "blog" | "project") {
   if (!url || !DOWNLOAD_MEDIA || url.startsWith("/") || url.startsWith("./")) return url;
+
+  if (isR2Ref(url)) {
+    try {
+      return await resolveR2Media(url);
+    } catch (e) {
+      console.error(`[media] R2 error: ${url}`, e);
+      return url;
+    }
+  }
 
   const isHashMp4 = url.endsWith("#.mp4");
   const cleanUrl = isHashMp4 ? url.replace("#.mp4", "") : url;
@@ -128,14 +208,14 @@ export async function resolveImage(url: string | null | undefined, slug: string,
 export async function resolveContentImages(content: string | null | undefined, slug: string, type: "blog" | "project") {
   if (!content || !DOWNLOAD_MEDIA) return content;
 
-  // Comprehensive patterns for images and videos
+  // Comprehensive patterns for images and videos (http(s) and cached r2:// refs)
   const patterns = [
-    /!\[[^\]]*\]\((https?:\/\/[^)]+)\)/g, // Markdown images: ![alt](url)
-    /\[[^\]]*\]\((https?:\/\/[^)]+(?:\.mp4|\.mov|\.webm|\.ogg|#\.mp4))\)/gi, // Markdown video links: [text](video.mp4)
-    /<img[^>]+src=["'](https?:\/\/[^"']+)["'][^>]*>/gi, // <img> tags
-    /<video[^>]+src=["'](https?:\/\/[^"']+)["'][^>]*>/gi, // <video> tags
-    /<source[^>]+src=["'](https?:\/\/[^"']+)["'][^>]*>/gi, // <source> tags
-    /<a[^>]+href=["'](https?:\/\/[^"']+(?:\.mp4|\.mov|\.webm|\.ogg|#\.mp4))["'][^>]*>/gi // <a> tags to videos
+    /!\[[^\]]*\]\(((?:https?:\/\/|r2:\/\/)[^)]+)\)/g, // Markdown images: ![alt](url)
+    /\[[^\]]*\]\(((?:https?:\/\/|r2:\/\/)[^)]+(?:\.mp4|\.mov|\.webm|\.ogg|#\.mp4))\)/gi, // Markdown video links
+    /<img[^>]+src=["']((?:https?:\/\/|r2:\/\/)[^"']+)["'][^>]*>/gi, // <img> tags
+    /<video[^>]+src=["']((?:https?:\/\/|r2:\/\/)[^"']+)["'][^>]*>/gi, // <video> tags
+    /<source[^>]+src=["']((?:https?:\/\/|r2:\/\/)[^"']+)["'][^>]*>/gi, // <source> tags
+    /<a[^>]+href=["']((?:https?:\/\/|r2:\/\/)[^"']+(?:\.mp4|\.mov|\.webm|\.ogg|#\.mp4))["'][^>]*>/gi // <a> tags to videos
   ];
 
   const urls = new Set<string>();
@@ -171,4 +251,3 @@ export async function resolvePostImages<T extends { slug: string; image?: string
 
   return posts;
 }
-

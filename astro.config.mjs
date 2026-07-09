@@ -29,22 +29,6 @@ export default defineConfig({
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**.ufs.sh",
-      },
-      {
-        protocol: "https",
-        hostname: "2n8oqvqetc.ufs.sh",
-      },
-      {
-        protocol: "https",
-        hostname: "j9277ckk5t.ufs.sh",
-      },
-      {
-        protocol: "https",
-        hostname: "**.uploadthing.com",
-      },
-      {
-        protocol: "https",
         hostname: "**.amazonaws.com",
       },
     ],

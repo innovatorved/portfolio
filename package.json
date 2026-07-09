@@ -9,7 +9,8 @@
     "astro": "astro",
     "db:push": "drizzle-kit push",
     "db:generate": "drizzle-kit generate",
-    "generate-types": "wrangler types"
+    "generate-types": "wrangler types",
+    "backfill:media": "bun run scripts/backfill-media.ts"
   },
   "dependencies": {
     "@astrojs/check": "0.9.9",
@@ -20,15 +21,14 @@
     "@libsql/client": "^0.17.4",
     "@notionhq/client": "^5.22.0",
     "@tailwindcss/vite": "^4.3.1",
-    "@tryfabric/martian": "^1.2.4",
     "astro": "7.0.7",
+    "aws4fetch": "^1.0.20",
     "drizzle-orm": "^0.45.2",
     "geist": "^1.7.2",
     "marked": "^18.0.5",
     "notion-to-md": "^3.1.9",
     "tailwindcss": "^4.3.1",
-    "typescript": "^6.0.3",
-    "uploadthing": "^7.7.4"
+    "typescript": "^6.0.3"
   },
   "devDependencies": {
     "drizzle-kit": "^0.31.10",
