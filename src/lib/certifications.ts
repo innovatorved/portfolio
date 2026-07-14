@@ -12,6 +12,26 @@ export interface Certification {
 
 export const certifications: Certification[] = [
     {
+        title: 'Microsoft Certified: Azure AI Apps and Agents Developer Associate',
+        issuer: 'Microsoft',
+        issued: '2026-06-27',
+        url: 'https://learn.microsoft.com/en-in/users/innovatorved/credentials/80946F80B7DD4FEC',
+        description:
+            'Validates expertise in designing, developing, and deploying advanced Azure AI solutions using Python and Microsoft Foundry — including generative AI, agentic workflows, computer vision, text analysis, and information extraction.',
+        skills: [
+            'Azure AI',
+            'Microsoft Foundry',
+            'Generative AI',
+            'AI Agents',
+            'RAG',
+            'Computer Vision',
+            'NLP',
+            'Python',
+            'Responsible AI',
+        ],
+        image: '/static/images/certifications/azure-ai-apps-agents-developer.svg',
+    },
+    {
         title: 'Microsoft Certified: Azure AI Fundamentals',
         issuer: 'Microsoft',
         issued: '2026-01-18',
