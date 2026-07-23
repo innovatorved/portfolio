@@ -3,6 +3,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import Experience from "@/components/Experience.astro";
 import Education from "@/components/Education.astro";
 import BlogPosts from "@/components/BlogPosts.astro";
+import ProjectPosts from "@/components/ProjectPosts.astro";
 ---
 
 <BaseLayout title="Ved Prakash Gupta">
@@ -11,29 +12,39 @@ import BlogPosts from "@/components/BlogPosts.astro";
 			Ved Prakash Gupta
 		</h1>
 		<p class="mb-4">
-			Full Stack Developer | React Developer | Generative AI Developer |
-			Azure Cloud Certified | Google Cloud Certified | Python Developer
+			Cloud Engineer | Full Stack & Generative AI | Azure & Google Cloud
+			Certified
 		</p>
 		<div
 			class="mb-4 rounded-sm border-neutral-200 bg-neutral-50 px-4 py-3 text-sm text-neutral-700 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-300"
 		>
-			<p class="m-0">
-				Just trying to be a developer while looking for the right role.
-				If you know of any vacancies, feel free to let me know.
-			</p>
+			<p class="m-0">        Open to Cloud Engineering, DevOps, Full Stack, and Generative AI roles — let's talk.
+</p>
 		</div>
 		<p class="mb-4 text-sm">
-			Cloud Developer with a strong background in cloud solutions and web
-			development. After starting as a freelancer, I gained expertise in
-			React, Next.js, JavaScript, TypeScript, Docker, Kubernetes, DevOps.
-			Currently, I work at LTIMindtree, where I focus on designing and
-			implementing scalable cloud infrastructure. I am passionate about
-			open-source contributions and enjoy creating projects to explore and
-			innovate with new technologies. Connect with me here or at
-			vedgupta@protonmail.com
+			I started as a freelancer, writing applications with React, Next.js,
+			JavaScript, and TypeScript, then grew into DevOps practices - 
+			containerizing with Docker and orchestrating with Kubernetes to ship
+			applications reliably at scale.
+			<br /><br />
+			Currently at LTIMindtree, I design and implement scalable Azure cloud infrastructure and write the application code that runs on it - AI-powered apps and agents using Azure OpenAI, not just the infrastructure around them. 
+			<br />
+			See Projects for what I've built, or reach out at me@vedgupta.in.
 		</p>
 		<Experience />
 		<Education />
+		<div class="my-8">
+			<h2 class="mb-8 text-xl font-semibold tracking-tighter">
+				Featured Projects
+			</h2>
+			<ProjectPosts limit={3} />
+			<a
+				href="/projects"
+				class="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+			>
+				View all projects →
+			</a>
+		</div>
 		<div class="my-8">
 			<h2 class="mb-8 text-xl font-semibold tracking-tighter">
 				Featured Posts

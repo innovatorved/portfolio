@@ -2,7 +2,14 @@
 import { getAllPosts } from "@/lib/db";
 import { formatDate } from "@/lib/utils";
 
-const projects = await getAllPosts("project");
+interface Props {
+  limit?: number;
+}
+
+const { limit } = Astro.props;
+
+const rawProjects = await getAllPosts("project");
+const projects = limit ? rawProjects.slice(0, limit) : rawProjects;
 ---
 
 <div>
