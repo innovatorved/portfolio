@@ -4,6 +4,7 @@ const robotsTxt = `
 User-agent: *
 Allow: /
 
+Sitemap: https://vedgupta.in/sitemap.xml
 Sitemap: https://vedgupta.in/sitemap-index.xml
 `.trim();
 

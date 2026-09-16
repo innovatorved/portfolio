@@ -16,7 +16,7 @@ const posts = rawPosts.slice(0, limit);
   {
     posts.map((post) => (
       <a
-        href={`/blog/${post.slug}`}
+        href={`/blog/${post.slug}/`}
         class="flex flex-col space-y-1 mb-4"
         data-event="blog_post_click"
         data-post-title={post.title}

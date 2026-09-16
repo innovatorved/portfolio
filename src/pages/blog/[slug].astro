@@ -40,7 +40,7 @@ const ogImage = post.image || `/og?title=${encodeURIComponent(post.title)}`;
                     : new Date().toISOString(),
                 description: post.summary,
                 image: post.image || ogImage,
-                url: `${Astro.site}blog/${post.slug}`,
+                url: new URL(Astro.url.pathname, Astro.site).href,
                 author: {
                     "@type": "Person",
                     name: "Ved Gupta Portfolio",

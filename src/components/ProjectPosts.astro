@@ -16,7 +16,7 @@ const projects = limit ? rawProjects.slice(0, limit) : rawProjects;
   {
     projects.map((project) => (
       <a
-        href={`/projects/${project.slug}`}
+        href={`/projects/${project.slug}/`}
         class="flex flex-col space-y-1 mb-4"
         data-event="project_click"
         data-post-title={project.title}

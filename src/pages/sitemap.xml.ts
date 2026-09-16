@@ -4,10 +4,11 @@ import type { APIContext } from 'astro';
 // Static pages with their priorities
 const STATIC_PAGES = [
   { path: '', priority: 1.0, changefreq: 'weekly' },
-  { path: 'about', priority: 0.9, changefreq: 'monthly' },
-  { path: 'blog', priority: 0.9, changefreq: 'daily' },
-  { path: 'projects', priority: 0.9, changefreq: 'weekly' },
-  { path: 'certifications', priority: 0.8, changefreq: 'monthly' },
+  { path: 'about/', priority: 0.9, changefreq: 'monthly' },
+  { path: 'blog/', priority: 0.9, changefreq: 'daily' },
+  { path: 'projects/', priority: 0.9, changefreq: 'weekly' },
+  { path: 'certifications/', priority: 0.8, changefreq: 'monthly' },
+  { path: 'resume/', priority: 0.8, changefreq: 'monthly' },
 ] as const;
 
 function escapeXml(str: string): string {
@@ -44,7 +45,7 @@ export async function GET(context: APIContext) {
   const blogEntries = posts.map(
     (post) => `
   <url>
-    <loc>${escapeXml(siteUrl)}/blog/${escapeXml(post.slug)}</loc>
+    <loc>${escapeXml(siteUrl)}/blog/${escapeXml(post.slug)}/</loc>
     <lastmod>${formatDate(post.updatedAt || post.publishedAt)}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -54,7 +55,7 @@ export async function GET(context: APIContext) {
   const projectEntries = projects.map(
     (project) => `
   <url>
-    <loc>${escapeXml(siteUrl)}/projects/${escapeXml(project.slug)}</loc>
+    <loc>${escapeXml(siteUrl)}/projects/${escapeXml(project.slug)}/</loc>
     <lastmod>${formatDate(project.updatedAt || project.publishedAt)}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

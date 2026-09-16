@@ -1,12 +1,14 @@
 ---
 const navItems = [
   { path: "/", name: "Home" },
-  { path: "/blog", name: "Blog" },
-  { path: "/projects", name: "Projects" },
-  { path: "/certifications", name: "Certifications" },
+  { path: "/blog/", name: "Blog" },
+  { path: "/projects/", name: "Projects" },
+  { path: "/certifications/", name: "Certifications" },
 ];
 
-const currentPath = Astro.url.pathname;
+const currentPath = Astro.url.pathname.endsWith("/")
+  ? Astro.url.pathname
+  : `${Astro.url.pathname}/`;
 ---
 
 <aside class="-ml-[8px] mb-16 tracking-tight">

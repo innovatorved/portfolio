@@ -53,7 +53,7 @@ const ogImage =
                     : new Date().toISOString(),
                 description: project.summary,
                 image: project.image || ogImage,
-                url: `${Astro.site}projects/${project.slug}`,
+                url: new URL(Astro.url.pathname, Astro.site).href,
                 author: {
                     "@type": "Person",
                     name: "Ved Gupta Portfolio",

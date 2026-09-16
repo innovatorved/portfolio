@@ -11,7 +11,7 @@ export async function GET(context: APIContext) {
         title: post.title,
         pubDate: post.publishedAt ? new Date(post.publishedAt) : new Date(),
         description: post.summary || '',
-        link: `/blog/${post.slug}`,
+        link: `/blog/${post.slug}/`,
         // Add categories/tags for better feed organization
         categories: ['blog', 'technology'],
         // Include content for full-text feeds
@@ -23,7 +23,7 @@ export async function GET(context: APIContext) {
         title: project.title,
         pubDate: project.publishedAt ? new Date(project.publishedAt) : new Date(),
         description: project.summary || '',
-        link: `/projects/${project.slug}`,
+        link: `/projects/${project.slug}/`,
         categories: ['project', 'portfolio'],
         content: project.summary || '',
         author: 'Ved Gupta',
@@ -42,7 +42,7 @@ export async function GET(context: APIContext) {
         // Note: No stylesheet - shows raw XML in browser
         // Add stylesheet: '/rss/styles.xsl' for styled browser view
         // Match site's trailing slash configuration
-        trailingSlash: false,
+        trailingSlash: true,
         // Additional channel customization
         customData: `
             <language>en-us</language>
