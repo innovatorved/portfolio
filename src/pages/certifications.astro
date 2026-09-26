@@ -31,6 +31,8 @@ const personSchema = {
     ],
     hasCredential: credentialSchema,
     knowsAbout: [
+        "Anthropic Claude",
+        "AI Agents",
         "Microsoft Azure",
         "Google Cloud Platform",
         "Cloud Engineering",
@@ -70,7 +72,7 @@ const certNames = certifications
     .map((c) => c.title)
     .slice(0, 3)
     .join(", ");
-const pageDescription = `Professional certifications of Ved Gupta (innovatorved): ${certNames}, and more. Verified cloud, AI & development credentials from Microsoft Azure, Google Cloud, and GitHub.`;
+const pageDescription = `Professional certifications of Ved Gupta (innovatorved): ${certNames}, and more. Verified cloud, AI & development credentials from Anthropic, Microsoft Azure, Google Cloud, and GitHub.`;
 ---
 
 <BaseLayout
@@ -88,7 +90,7 @@ const pageDescription = `Professional certifications of Ved Gupta (innovatorved)
         />
         <meta
             name="keywords"
-            content="Ved Gupta certifications, innovatorved certifications, vedgupta credentials, Azure certification, Google Cloud certification, Microsoft certified, GitHub certified, cloud engineer certification, AI fundamentals, Azure Administrator"
+            content="Ved Gupta certifications, innovatorved certifications, vedgupta credentials, Claude Certified Developer, Anthropic certification, Azure certification, Google Cloud certification, Microsoft certified, GitHub certified, cloud engineer certification, AI fundamentals, Azure Administrator"
         />
     </Fragment>
 
@@ -103,7 +105,8 @@ const pageDescription = `Professional certifications of Ved Gupta (innovatorved)
         >
             A curated list of professional certifications and verified
             credentials of <strong>Ved Gupta (innovatorved)</strong>. These
-            validate expertise across <strong>Microsoft Azure</strong>,
+            validate expertise across <strong>Anthropic</strong>,
+            <strong>Microsoft Azure</strong>,
             <strong>Google Cloud Platform</strong>, full-stack development, and
             AI tooling. Continuously expanding as I pursue more certifications.
         </p>

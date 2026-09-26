@@ -12,6 +12,26 @@ export interface Certification {
 
 export const certifications: Certification[] = [
     {
+        title: 'Claude Certified Developer - Foundations',
+        issuer: 'Anthropic',
+        issued: '2026-09-26',
+        url: 'https://www.credly.com/badges/daf61937-6ac6-4d1b-97f5-0cb3a1c83bcb',
+        description:
+            'Validates expertise in building, integrating, and shipping production applications and AI agents on Claude using the Claude API, Claude Code, custom tools, and Model Context Protocol (MCP) servers.',
+        skills: [
+            'Claude API',
+            'AI Agents',
+            'Claude Code',
+            'MCP Server Development',
+            'Prompt Engineering',
+            'Context Engineering',
+            'Evaluation & Debugging',
+            'Application Security',
+            'Model Optimization',
+        ],
+        image: '/static/images/certifications/claude-certified-developer-foundations.png',
+    },
+    {
         title: 'Microsoft Certified: Azure AI Apps and Agents Developer Associate',
         issuer: 'Microsoft',
         issued: '2026-06-27',
