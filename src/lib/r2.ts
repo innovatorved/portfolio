@@ -6,7 +6,9 @@ import { AwsClient } from "aws4fetch";
 
 function env(name: string): string | undefined {
   const fromMeta = (import.meta as ImportMeta & { env?: Record<string, string> }).env?.[name];
-  return fromMeta || process.env[name];
+  // Dashboard secrets pasted as "value" keep the quotes, which breaks the R2 hostname and signing.
+  const value = (fromMeta || process.env[name])?.trim().replace(/^(["'])(.*)\1$/, "$2");
+  return value || undefined;
 }
 
 let cachedClient: AwsClient | null = null;
