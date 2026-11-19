@@ -1,38 +1,104 @@
 ---
 const experiences = [
   {
-    company: 'LTIMindtree',
-    role: 'Cloud Engineer',
-    location: 'Hyderabad, India',
-    period: 'Mar 2024 - Present',
+    company: "LTIMindtree",
+    role: "Cloud Engineer",
+    location: "Hyderabad, India",
+    period: "Mar 2024 - Present",
+    verified: true,
     points: [
-      'Working on Microsoft Azure Cloud projects with focus on Infrastructure as a Service (IaaS), optimizing and managing cloud infrastructure.',
-      'Implementing and deploying scalable, secure, and efficient cloud solutions on Azure.',
-      'Collaborating with teams to design and deploy cloud architectures aligned with business needs.',
-      'Providing solutions for clients by designing, deploying, and managing Azure IaaS environments tailored to their specific needs.',
+      "Design, build, and maintain Azure DevOps YAML pipelines for CI/CD using reusable pipeline templates, release gating, and artifact management.",
+      "Deploy and operate containerized workloads on Kubernetes (AKS) with Docker and Helm charts, troubleshooting rollout and reliability issues.",
+      "Design and manage scalable Microsoft Azure cloud infrastructure (IaaS, Entra ID, networking, storage) with Terraform and least-privilege IAM security.",
+      "Build AI-powered applications and agents using Azure OpenAI alongside secure secret handling with Azure Key Vault.",
     ],
   },
 ];
 ---
 
-<div class="my-8">
-  <h2 class="mb-6 text-xl font-semibold tracking-tighter">Experience</h2>
-  <div class="space-y-8">
-    {experiences.map((exp) => (
-      <div>
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
-          <h3 class="text-lg font-semibold">{exp.company}</h3>
-          <span class="text-sm text-gray-600 dark:text-gray-400 mt-1 sm:mt-0">{exp.period}</span>
-        </div>
-        <p class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-          {exp.role} • {exp.location}
-        </p>
-        <ul class="space-y-2 text-sm text-gray-600 dark:text-gray-400 ml-4">
-          {exp.points.map((point) => (
-            <li class="list-disc">{point}</li>
-          ))}
-        </ul>
-      </div>
-    ))}
+<section class="mt-8">
+  <div class="flex items-center justify-between gap-3 mb-4">
+    <h2 class="text-[16px] font-semibold text-[var(--ink-primary)]">
+      Experience
+    </h2>
+    <span
+      class="text-[12px] font-medium px-2.5 py-0.5 rounded-full bg-[var(--bg-subtle)] border border-[var(--border)] text-[var(--ink-secondary)]"
+    >
+      2+ years
+    </span>
   </div>
-</div>
+
+  <div class="space-y-6">
+    {
+      experiences.map((exp) => (
+        <div>
+          <!-- Company row -->
+          <div class="flex items-center gap-2.5">
+            <span
+              class="inline-flex items-center justify-center h-6 w-6 rounded-full bg-[var(--bg-subtle)] border border-[var(--border)] text-[var(--ink-secondary)] shrink-0"
+              aria-hidden="true"
+            >
+              <svg
+                width="13"
+                height="13"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect width="16" height="20" x="4" y="2" rx="2" ry="2" />
+                <path d="M9 22v-4h6v4" />
+                <path d="M8 6h.01" />
+                <path d="M16 6h.01" />
+                <path d="M12 6h.01" />
+                <path d="M12 10h.01" />
+                <path d="M12 14h.01" />
+                <path d="M16 10h.01" />
+                <path d="M16 14h.01" />
+                <path d="M8 10h.01" />
+                <path d="M8 14h.01" />
+              </svg>
+            </span>
+            <h3 class="text-[14px] font-semibold text-[var(--ink-primary)]">
+              {exp.company}
+            </h3>
+          </div>
+
+          <!-- Nested role with subtle L-shaped tree connector -->
+          <div class="relative ml-3 pl-5 pt-2.5">
+            <span
+              class="pointer-events-none absolute left-0 top-0 h-5 w-3.5 rounded-bl-lg border-l border-b border-[var(--border)]"
+              aria-hidden="true"
+            />
+            <div class="flex items-center gap-1.5">
+              <p class="text-[14px] font-semibold text-[var(--ink-primary)]">
+                {exp.role}
+              </p>
+              {exp.verified && (
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="var(--green-primary)"
+                  aria-label="Verified role"
+                >
+                  <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm4.7 8.3-5.2 5.2a1 1 0 0 1-1.4 0l-2.4-2.4a1 1 0 1 1 1.4-1.4l1.7 1.7 4.5-4.5a1 1 0 0 1 1.4 1.4Z" />
+                </svg>
+              )}
+            </div>
+            <p class="mt-0.5 text-[12px] text-[var(--ink-muted)] tabular-nums">
+              {exp.period} · {exp.location}
+            </p>
+            <ul class="mt-2.5 space-y-1.5 text-[13px] text-[var(--ink-secondary)] leading-relaxed list-disc pl-4 marker:text-[var(--border-hover)]">
+              {exp.points.map((point) => (
+                <li>{point}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>

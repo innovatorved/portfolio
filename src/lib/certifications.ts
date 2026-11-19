@@ -37,7 +37,7 @@ export const certifications: Certification[] = [
         issued: '2026-06-27',
         url: 'https://learn.microsoft.com/en-in/users/innovatorved/credentials/80946F80B7DD4FEC',
         description:
-            'Validates expertise in designing, developing, and deploying advanced Azure AI solutions using Python and Microsoft Foundry — including generative AI, agentic workflows, computer vision, text analysis, and information extraction.',
+            'Validates expertise in designing, developing, and deploying advanced Azure AI solutions using Python and Microsoft Foundry, including generative AI, agentic workflows, computer vision, text analysis, and information extraction.',
         skills: [
             'Azure AI',
             'Microsoft Foundry',

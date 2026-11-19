@@ -1,9 +1,36 @@
 ---
+interface Props {
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+
 const navItems = [
   { path: "/", name: "Home" },
-  { path: "/blog/", name: "Blog" },
   { path: "/projects/", name: "Projects" },
-  { path: "/certifications/", name: "Certifications" },
+  { path: "/blog/", name: "Posts" },
+  { path: "/certifications/", name: "Credentials" },
+  { path: "/resume/", name: "Resume" },
+  { path: "/about/", name: "About" },
+];
+
+const skills = [
+  "Azure",
+  "Google Cloud",
+  "Terraform",
+  "Kubernetes (AKS)",
+  "Docker",
+  "Helm",
+  "Azure DevOps",
+  "AI Agents",
+  "MCP",
+  "Claude API",
+  "Python",
+  "TypeScript",
+  "JavaScript",
+  "React",
+  "Next.js",
+  "PostgreSQL",
 ];
 
 const currentPath = Astro.url.pathname.endsWith("/")
@@ -11,40 +38,234 @@ const currentPath = Astro.url.pathname.endsWith("/")
   : `${Astro.url.pathname}/`;
 ---
 
-<aside class="-ml-[8px] mb-16 tracking-tight">
-  <div class="lg:sticky lg:top-20">
-    <nav
-      class="flex flex-row items-start relative px-0 pb-0 fade md:overflow-auto scroll-pr-6 md:relative"
-      id="nav"
+<header class="relative pt-8">
+  <!-- Subtle corner theme toggle -->
+  <div class="absolute right-0 top-6">
+    <button
+      id="theme-toggle"
+      type="button"
+      class="inline-flex items-center justify-center h-8 w-8 rounded-full border border-[var(--border)] bg-[var(--bg-page)] text-[var(--ink-muted)] hover:text-[var(--ink-primary)] hover:bg-[var(--bg-hover)] hover:border-[var(--border-hover)] transition-colors cursor-pointer"
+      title="Toggle theme"
     >
-      <div class="flex flex-row space-x-0 pr-10">
-        {
-          navItems.map(({ path, name }) => (
-            <a
-              href={path}
-              data-event="nav_click"
-              data-link-text={name}
-              data-link-url={path}
-              aria-current={
-                currentPath === path ||
-                (path !== "/" && currentPath.startsWith(path))
-                  ? "page"
-                  : undefined
-              }
-              class:list={[
-                "transition-all hover:text-neutral-800 dark:hover:text-neutral-200 flex align-middle relative py-1 px-2 m-1",
-                {
-                  "text-neutral-800 dark:text-neutral-200":
-                    currentPath === path ||
-                    (path !== "/" && currentPath.startsWith(path)),
-                },
-              ]}
-            >
-              {name}
-            </a>
-          ))
-        }
-      </div>
-    </nav>
+      <span class="theme-icon-dark items-center justify-center">
+        <span class="sr-only">Switch to dark theme</span>
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+        </svg>
+      </span>
+      <span class="theme-icon-light items-center justify-center">
+        <span class="sr-only">Switch to light theme</span>
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2"></path>
+          <path d="M12 20v2"></path>
+          <path d="m4.93 4.93 1.41 1.41"></path>
+          <path d="m17.66 17.66 1.41 1.41"></path>
+          <path d="M2 12h2"></path>
+          <path d="M20 12h2"></path>
+          <path d="m6.34 17.66-1.41 1.41"></path>
+          <path d="m19.07 4.93-1.41 1.41"></path>
+        </svg>
+      </span>
+    </button>
   </div>
-</aside>
+
+  {
+    compact ? (
+      <div class="flex items-center gap-3 pb-4 pr-10">
+        <a
+          href="/"
+          class="flex items-center gap-2.5 text-[var(--ink-primary)] hover:opacity-85 transition-opacity"
+          data-event="nav_click"
+          data-link-text="Brand"
+          data-link-url="/"
+        >
+          <img
+            src="/static/images/vedgupta-avatar.jpg"
+            alt="Ved Prakash Gupta"
+            width="36"
+            height="36"
+            class="h-9 w-9 rounded-full object-cover border border-[var(--border)]"
+          />
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="text-[15px] font-semibold leading-tight text-[var(--ink-primary)]">
+                Ved Prakash Gupta
+              </span>
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="var(--green-primary)"
+                aria-hidden="true"
+              >
+                <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm4.7 8.3-5.2 5.2a1 1 0 0 1-1.4 0l-2.4-2.4a1 1 0 1 1 1.4-1.4l1.7 1.7 4.5-4.5a1 1 0 0 1 1.4 1.4Z" />
+              </svg>
+            </div>
+            <p class="text-[12px] text-[var(--ink-muted)] leading-tight mt-0.5">
+              Cloud Engineer · Full Stack &amp; Generative AI
+            </p>
+          </div>
+        </a>
+      </div>
+    ) : (
+      <div class="flex flex-col items-center text-center pt-2 pb-6">
+        <img
+          src="/static/images/vedgupta-avatar.jpg"
+          alt="Ved Prakash Gupta"
+          width="88"
+          height="88"
+          class="h-[88px] w-[88px] rounded-full object-cover object-top border border-[var(--border)]"
+        />
+
+        <div class="mt-3.5 flex items-center justify-center gap-1.5">
+          <h1 class="text-[18px] font-semibold leading-7 text-[var(--ink-primary)]">
+            Ved Prakash Gupta
+          </h1>
+          <svg
+            width="17"
+            height="17"
+            viewBox="0 0 24 24"
+            fill="var(--green-primary)"
+            aria-label="Verified"
+          >
+            <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm4.7 8.3-5.2 5.2a1 1 0 0 1-1.4 0l-2.4-2.4a1 1 0 1 1 1.4-1.4l1.7 1.7 4.5-4.5a1 1 0 0 1 1.4 1.4Z" />
+          </svg>
+        </div>
+
+        <p class="mt-1 text-[14px] leading-5 text-[var(--ink-secondary)] max-w-[460px] text-balance">
+          Cloud Engineer · Full Stack &amp; Generative AI · Azure &amp; Google Cloud Certified
+        </p>
+
+        <!-- Compact metadata row -->
+        <div class="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 text-[12px] text-[var(--ink-muted)]">
+          <span class="inline-flex items-center gap-1">
+            <svg
+              width="13"
+              height="13"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            Hyderabad, India
+          </span>
+
+          <a
+            href="mailto:me@vedgupta.in"
+            data-event="contact_email_click"
+            data-email="me@vedgupta.in"
+            class="inline-flex items-center gap-1 hover:text-[var(--ink-primary)] transition-colors"
+          >
+            <svg
+              width="13"
+              height="13"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="4" />
+              <path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8" />
+            </svg>
+            me@vedgupta.in
+          </a>
+
+          <a
+            href="https://github.com/innovatorved"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-event="social_click"
+            data-platform="github"
+            data-link-url="https://github.com/innovatorved"
+            class="inline-flex items-center gap-1 hover:text-[var(--ink-primary)] transition-colors"
+          >
+            <svg
+              width="13"
+              height="13"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+            </svg>
+            github.com/innovatorved
+          </a>
+        </div>
+
+        <!-- Centered skill pills -->
+        <div class="mt-4 flex flex-wrap items-center justify-center gap-1.5 max-w-[560px]">
+          {skills.map((skill) => (
+            <span class="skill-pill">{skill}</span>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  <!-- Crisp uppercase underline tab bar -->
+  <nav
+    id="nav"
+    aria-label="Primary"
+    class="border-b border-[var(--border)] flex items-center justify-start sm:justify-center gap-5 sm:gap-6 overflow-x-auto no-scrollbar"
+  >
+    {
+      navItems.map(({ path, name }) => {
+        const isActive =
+          currentPath === path ||
+          (path !== "/" && currentPath.startsWith(path));
+        return (
+          <a
+            href={path}
+            data-event="nav_click"
+            data-link-text={name}
+            data-link-url={path}
+            aria-current={isActive ? "page" : undefined}
+            class:list={[
+              "relative shrink-0 py-2.5 text-[12px] uppercase tracking-[0.04em] whitespace-nowrap transition-colors -mb-px border-b-2",
+              isActive
+                ? "font-semibold text-[var(--green-primary)] border-[var(--green-underline)]"
+                : "font-medium text-[var(--ink-primary)] border-transparent hover:text-[var(--green-ink)]",
+            ]}
+          >
+            {name}
+          </a>
+        );
+      })
+    }
+  </nav>
+</header>

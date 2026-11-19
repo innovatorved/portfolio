@@ -1,31 +1,38 @@
 ---
 const education = [
   {
-    institution: 'Galgotias College of Engineering and Technology',
-    degree: 'Bachelor of Technology - BTech, Information Technology',
-    period: 'Aug 2020 - May 2023',
+    institution: "Galgotias College of Engineering and Technology",
+    degree: "Bachelor of Technology - BTech, Information Technology",
+    period: "Aug 2020 - May 2023",
   },
   {
-    institution: 'Government Polytechnic Bahraich',
-    degree: '3 years Technical Diploma',
-    period: '2017 - 2020',
+    institution: "Government Polytechnic Bahraich",
+    degree: "3 years Technical Diploma",
+    period: "2017 - 2020",
   },
 ];
 ---
 
-<div class="my-8">
-  <h2 class="mb-6 text-xl font-semibold tracking-tighter">Education</h2>
-  <div class="space-y-8">
-    {education.map((edu) => (
-      <div>
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
-          <h3 class="text-lg font-semibold">{edu.institution}</h3>
-          <span class="text-sm text-gray-600 dark:text-gray-400 mt-1 sm:mt-0">{edu.period}</span>
+<section class="mt-8">
+  <h2 class="text-[16px] font-semibold text-[var(--ink-primary)] mb-4">
+    Education
+  </h2>
+
+  <div class="space-y-4">
+    {
+      education.map((edu) => (
+        <div>
+          <h3 class="text-[14px] font-semibold text-[var(--ink-primary)]">
+            {edu.institution}
+          </h3>
+          <p class="mt-0.5 text-[13px] text-[var(--ink-secondary)]">
+            {edu.degree}
+          </p>
+          <p class="mt-0.5 text-[12px] text-[var(--ink-muted)] tabular-nums">
+            {edu.period}
+          </p>
         </div>
-        <p class="text-sm font-medium text-gray-700 dark:text-gray-300">
-          {edu.degree}
-        </p>
-      </div>
-    ))}
+      ))
+    }
   </div>
-</div>
+</section>

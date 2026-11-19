@@ -1,82 +1,144 @@
 ---
 import { certifications } from "@/lib/certifications";
+
+interface Props {
+  limit?: number;
+  compact?: boolean;
+}
+
+const { limit, compact = false } = Astro.props;
+const items = limit ? certifications.slice(0, limit) : certifications;
 ---
 
-<div class="my-6">
-  <div class="flex flex-col gap-6">
-    {
-      certifications.map((c) => (
-        <div class="group relative p-5 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 shadow-sm hover:shadow-md transition-all hover:border-neutral-300 dark:hover:border-neutral-700">
-          <div class="flex items-start justify-between gap-3">
-            <h3 class="text-base font-semibold flex items-center gap-3 leading-snug">
-              {c.image && (
-                <img
-                  src={c.image}
-                  alt={c.title}
-                  class="h-12 w-12 rounded-md border border-neutral-200 dark:border-neutral-800 object-cover shadow-sm"
-                  loading="lazy"
-                />
-              )}
-              {!c.image && c.remoteImage && (
-                <img
-                  src={c.remoteImage}
-                  alt={`${c.title} certification badge from ${c.issuer}`}
-                  width="48"
-                  height="48"
-                  class="h-12 w-12 rounded-md border border-neutral-200 dark:border-neutral-800 object-cover shadow-sm"
-                  loading="lazy"
-                />
-              )}
-              <span>{c.title}</span>
+{
+  compact ? (
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      {items.map((c) => (
+        <a
+          href={c.url || "/certifications/"}
+          target={c.url ? "_blank" : undefined}
+          rel={c.url ? "noopener noreferrer" : undefined}
+          data-event="certification_credential_click"
+          data-cert-title={c.title}
+          data-issuer={c.issuer}
+          data-link-url={c.url || "/certifications/"}
+          class="group pl-card p-3.5 flex items-start gap-3"
+        >
+          {(c.image || c.remoteImage) && (
+            <img
+              src={c.image || c.remoteImage}
+              alt={`${c.title} badge`}
+              width="38"
+              height="38"
+              class="h-[38px] w-[38px] shrink-0 rounded-lg border border-[var(--border)] bg-[var(--bg-subtle)] object-contain p-1"
+              loading="lazy"
+            />
+          )}
+          <div class="min-w-0 flex-1">
+            <h3 class="text-[13px] font-semibold text-[var(--ink-primary)] group-hover:text-[var(--green-ink)] leading-snug transition-colors line-clamp-2">
+              {c.title}
             </h3>
-            <span class="text-[11px] font-medium text-neutral-500 dark:text-neutral-400 whitespace-nowrap mt-0.5">
-              {c.issued}
-            </span>
-          </div>
-          <p class="mt-1 text-xs font-medium text-neutral-700 dark:text-neutral-300 tracking-wide">
-            {c.issuer}
-            {c.credentialId && (
-              <span class="ml-2 text-[10px] text-neutral-500 dark:text-neutral-400">
-                ID: {c.credentialId}
-              </span>
-            )}
-          </p>
-          {c.description && (
-            <p class="mt-2 text-[13px] text-neutral-600 dark:text-neutral-400 leading-relaxed line-clamp-[14]">
-              {c.description}
+            <p class="mt-1 text-[11.5px] text-[var(--ink-muted)] tabular-nums">
+              {c.issuer} · {c.issued}
             </p>
-          )}
-          {c.skills && c.skills.length > 0 && (
-            <ul class="flex flex-wrap gap-1.5 mt-3">
-              {c.skills.map((s) => (
-                <li class="text-[10px] tracking-wide px-2 py-1 rounded-md bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700">
-                  {s}
-                </li>
-              ))}
-            </ul>
-          )}
-          {c.url && (
-            <div class="mt-4 flex">
-              <a
-                href={c.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-event="certification_credential_click"
-                data-cert-title={c.title}
-                data-issuer={c.issuer}
-                data-link-url={c.url}
-                class="inline-flex items-center text-[12px] font-medium text-neutral-800 dark:text-neutral-200 underline decoration-dotted underline-offset-4 group-hover:decoration-solid"
-              >
-                View Credential
-                <span class="ml-1 transition-transform group-hover:translate-x-0.5">
-                  →
+          </div>
+        </a>
+      ))}
+    </div>
+  ) : (
+    <div class="flex flex-col gap-3">
+      {items.map((c) => (
+        <article class="group pl-card p-4">
+          <div class="flex items-start gap-3.5">
+            {(c.image || c.remoteImage) && (
+              <img
+                src={c.image || c.remoteImage}
+                alt={`${c.title} certification badge from ${c.issuer}`}
+                width="44"
+                height="44"
+                class="h-11 w-11 shrink-0 rounded-xl border border-[var(--border)] bg-[var(--bg-subtle)] object-contain p-1"
+                loading="lazy"
+              />
+            )}
+            <div class="min-w-0 flex-1">
+              <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+                <h2 class="text-[14px] font-semibold text-[var(--ink-primary)] leading-snug">
+                  {c.title}
+                </h2>
+                <span class="font-mono-meta text-[11.5px] text-[var(--ink-muted)] tabular-nums shrink-0">
+                  {c.issued}
                 </span>
-              </a>
+              </div>
+              <p class="mt-0.5 text-[12px] font-medium text-[var(--green-ink)] flex flex-wrap items-center gap-x-2">
+                <span class="inline-flex items-center gap-1">
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 24 24"
+                    fill="var(--green-primary)"
+                    aria-hidden="true"
+                  >
+                    <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm4.7 8.3-5.2 5.2a1 1 0 0 1-1.4 0l-2.4-2.4a1 1 0 1 1 1.4-1.4l1.7 1.7 4.5-4.5a1 1 0 0 1 1.4 1.4Z" />
+                  </svg>
+                  {c.issuer}
+                </span>
+                {c.credentialId && (
+                  <span class="font-mono-meta text-[11px] text-[var(--ink-muted)]">
+                    ID: {c.credentialId}
+                  </span>
+                )}
+              </p>
+
+              {c.description && (
+                <p class="mt-2 text-[13px] text-[var(--ink-secondary)] leading-relaxed">
+                  {c.description}
+                </p>
+              )}
+
+              {c.skills && c.skills.length > 0 && (
+                <ul class="flex flex-wrap gap-1.5 mt-3">
+                  {c.skills.map((s) => (
+                    <li class="skill-pill !text-[11px] !h-[22px] !px-2 !text-[var(--ink-secondary)]">
+                      {s}
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              {c.url && (
+                <div class="mt-3">
+                  <a
+                    href={c.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-event="certification_credential_click"
+                    data-cert-title={c.title}
+                    data-issuer={c.issuer}
+                    data-link-url={c.url}
+                    class="inline-flex items-center gap-1 text-[12px] font-medium text-[var(--ink-primary)] hover:text-[var(--green-ink)] transition-colors"
+                  >
+                    <span>Verify credential</span>
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M7 17 17 7" />
+                      <path d="M7 7h10v10" />
+                    </svg>
+                  </a>
+                </div>
+              )}
             </div>
-          )}
-          <div class="pointer-events-none absolute inset-0 rounded-lg ring-1 ring-transparent group-hover:ring-blue-300/40 dark:group-hover:ring-blue-500/30 transition" />
-        </div>
-      ))
-    }
-  </div>
-</div>
+          </div>
+        </article>
+      ))}
+    </div>
+  )
+}

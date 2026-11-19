@@ -6,55 +6,80 @@ import { resolvePostImages, resolveHtmlMedia } from "@/lib/images";
 import { marked } from "marked";
 
 export async function getStaticPaths() {
-    const rawPosts = await getAllPosts("blog");
-    const posts = await resolvePostImages(rawPosts, "blog");
-    return posts.map((post) => ({
-        params: { slug: post.slug },
-        props: { post },
-    }));
+  const rawPosts = await getAllPosts("blog");
+  const posts = await resolvePostImages(rawPosts, "blog");
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
 }
 
 const { post } = Astro.props;
 let contentHtml = await marked.parse(post.content || "");
 contentHtml = await resolveHtmlMedia(contentHtml, post.slug, "blog");
 const ogImage = post.image || `/og?title=${encodeURIComponent(post.title)}`;
+const wordCount = (post.content || "").trim().split(/\s+/).filter(Boolean).length;
+const readingTime = Math.max(1, Math.ceil(wordCount / 220));
 ---
 
 <BaseLayout
-    title={post.title}
-    description={post.summary || undefined}
-    image={ogImage || undefined}
+  title={post.title}
+  description={post.summary || undefined}
+  image={ogImage || undefined}
+  compactHeader={true}
 >
-    <section>
-        <script
-            type="application/ld+json"
-            set:html={JSON.stringify({
-                "@context": "https://schema.org",
-                "@type": "BlogPosting",
-                headline: post.title,
-                datePublished: post.publishedAt
-                    ? post.publishedAt.toISOString()
-                    : new Date().toISOString(),
-                dateModified: post.publishedAt
-                    ? post.publishedAt.toISOString()
-                    : new Date().toISOString(),
-                description: post.summary,
-                image: post.image || ogImage,
-                url: new URL(Astro.url.pathname, Astro.site).href,
-                author: {
-                    "@type": "Person",
-                    name: "Ved Gupta Portfolio",
-                },
-            })}
-        />
-        <h1 class="title font-semibold text-2xl tracking-tighter">
-            {post.title}
-        </h1>
-        <div class="flex justify-between items-center mt-2 mb-8 text-sm">
-            <p class="text-sm text-neutral-600 dark:text-neutral-400">
-                {formatDate(post.publishedAt)}
-            </p>
-        </div>
-        <article class="prose" set:html={contentHtml} />
-    </section>
+  <Fragment slot="head">
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        headline: post.title,
+        datePublished: post.publishedAt
+          ? post.publishedAt.toISOString()
+          : new Date().toISOString(),
+        dateModified: post.publishedAt
+          ? post.publishedAt.toISOString()
+          : new Date().toISOString(),
+        description: post.summary,
+        image: post.image || ogImage,
+        url: new URL(Astro.url.pathname, Astro.site).href,
+        author: {
+          "@type": "Person",
+          name: "Ved Gupta Portfolio",
+        },
+      })}
+    />
+  </Fragment>
+
+  <section class="mt-6">
+    <a
+      href="/blog/"
+      class="inline-flex items-center gap-1 text-[12px] font-medium text-[var(--ink-muted)] hover:text-[var(--ink-primary)] transition-colors mb-4"
+    >
+      ← Back to Posts
+    </a>
+
+    <h1 class="title text-[22px] font-semibold tracking-[-0.02em] leading-snug text-[var(--ink-primary)]">
+      {post.title}
+    </h1>
+
+    {
+      post.summary && (
+        <p class="mt-2 text-[14px] text-[var(--ink-secondary)] leading-relaxed">
+          {post.summary}
+        </p>
+      )
+    }
+
+    <div class="mt-3 pb-5 border-b border-[var(--border)] flex items-center gap-2 font-mono-meta text-[12px] text-[var(--ink-muted)] tabular-nums">
+      <time>{formatDate(post.publishedAt)}</time>
+      <span aria-hidden="true">·</span>
+      <span>{readingTime} min read</span>
+      <span aria-hidden="true">·</span>
+      <span>Ved Prakash Gupta</span>
+    </div>
+
+    <article class="prose mt-6" set:html={contentHtml} />
+  </section>
 </BaseLayout>

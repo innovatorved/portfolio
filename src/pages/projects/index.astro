@@ -4,26 +4,26 @@ import ProjectPosts from "@/components/ProjectPosts.astro";
 ---
 
 <BaseLayout
-    title="Projects"
-    description="A list of projects by Ved Gupta (innovatorved | vedgupta)."
+  title="Projects"
+  description="A list of projects by Ved Gupta (innovatorved | vedgupta)."
 >
-    <section>
-        <h1 class="font-semibold text-2xl mb-8 tracking-tighter">
-            My Projects
-        </h1>
-        <p class="text-neutral-600 dark:text-neutral-300 mb-8 text-sm">
-            I've created a variety of small, useful projects. You can explore
-            them on my Github{" "}
-            <a
-                href="https://github.com/innovatorved"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="underline hover:text-neutral-800 dark:hover:text-neutral-100"
-            >
-                @innovatorved
-            </a>
-            .
-        </p>
-        <ProjectPosts />
-    </section>
+  <section class="mt-6">
+    <div class="flex items-center justify-between gap-3 mb-4">
+      <h2 class="text-[16px] font-semibold text-[var(--ink-primary)]">
+        My Projects
+      </h2>
+      <a
+        href="https://github.com/innovatorved"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-event="social_click"
+        data-platform="github"
+        data-link-url="https://github.com/innovatorved"
+        class="pl-btn"
+      >
+        GitHub @innovatorved ↗
+      </a>
+    </div>
+    <ProjectPosts />
+  </section>
 </BaseLayout>

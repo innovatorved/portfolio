@@ -10,27 +10,119 @@ const { limit } = Astro.props;
 
 const rawProjects = await getAllPosts("project");
 const projects = limit ? rawProjects.slice(0, limit) : rawProjects;
+
+const projectMeta: Record<
+  string,
+  { stack: string; dotColor: string; stars?: string }
+> = {
+  "whisper-api": { stack: "Python", dotColor: "#3572A5", stars: "915" },
+  "subtitle-generator": { stack: "Python", dotColor: "#3572A5", stars: "440" },
+  "realtime-interview-copilot": {
+    stack: "TypeScript",
+    dotColor: "#3178C6",
+    stars: "138",
+  },
+  "realtime-interview-copilot-desktop": {
+    stack: "TypeScript",
+    dotColor: "#3178C6",
+  },
+  "sayitflow-on-device-mac-dictation": {
+    stack: "Swift · macOS",
+    dotColor: "#F05138",
+  },
+  "pdf-audiobook-reader": { stack: "TypeScript", dotColor: "#3178C6" },
+  "tts-app": { stack: "Python", dotColor: "#3572A5" },
+};
 ---
 
-<div>
-  {
-    projects.map((project) => (
-      <a
-        href={`/projects/${project.slug}/`}
-        class="flex flex-col space-y-1 mb-4"
-        data-event="project_click"
-        data-post-title={project.title}
-        data-post-slug={project.slug}
-      >
-        <div class="w-full flex flex-col md:flex-row space-x-0 md:space-x-2">
-          <p class="text-neutral-600 dark:text-neutral-400 w-[100px] tabular-nums">
-            {formatDate(project.publishedAt)}
-          </p>
-          <p class="text-neutral-900 dark:text-neutral-100 tracking-tight">
-            {project.title}
-          </p>
-        </div>
-      </a>
-    ))
-  }
-</div>
+{
+  projects.length === 0 ? (
+    <p class="text-[13px] text-[var(--ink-muted)] py-4">
+      No projects published yet.
+    </p>
+  ) : (
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      {projects.map((project) => {
+        const meta = projectMeta[project.slug];
+        return (
+          <a
+            href={`/projects/${project.slug}/`}
+            class="group pl-card p-4 flex flex-col justify-between gap-3"
+            data-event="project_click"
+            data-post-title={project.title}
+            data-post-slug={project.slug}
+          >
+            <div>
+              <h3 class="text-[14px] font-semibold leading-5 text-[var(--ink-primary)] group-hover:text-[var(--green-ink)] transition-colors">
+                {project.title}
+              </h3>
+              {project.summary && (
+                <p class="mt-1.5 text-[12.5px] leading-[1.5] text-[var(--ink-secondary)] line-clamp-2">
+                  {project.summary}
+                </p>
+              )}
+            </div>
+
+            <div class="flex items-center justify-between gap-2 pt-1">
+              <div class="flex items-center gap-3 text-[12px] text-[var(--ink-muted)] min-w-0">
+                {meta ? (
+                  <>
+                    <span class="inline-flex items-center gap-1.5 truncate">
+                      <span
+                        class="h-2 w-2 rounded-full shrink-0"
+                        style={`background-color: ${meta.dotColor};`}
+                        aria-hidden="true"
+                      />
+                      <span>{meta.stack}</span>
+                    </span>
+                    {meta.stars && (
+                      <span class="inline-flex items-center gap-1 tabular-nums shrink-0">
+                        <svg
+                          width="12"
+                          height="12"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.75"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          aria-hidden="true"
+                        >
+                          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                        </svg>
+                        {meta.stars}
+                      </span>
+                    )}
+                  </>
+                ) : (
+                  <time class="font-mono-meta text-[11.5px] tabular-nums">
+                    {formatDate(project.publishedAt)}
+                  </time>
+                )}
+              </div>
+
+              <span
+                class="inline-flex items-center justify-center h-6 w-6 rounded-full border border-[var(--border)] text-[var(--ink-muted)] group-hover:text-[var(--ink-primary)] group-hover:border-[var(--border-hover)] transition-colors shrink-0"
+                aria-hidden="true"
+              >
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M7 17 17 7" />
+                  <path d="M7 7h10v10" />
+                </svg>
+              </span>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+  )
+}

@@ -1,68 +1,88 @@
 ---
 const currentYear = new Date().getFullYear();
 
-const footerLinks = [
-  { href: "/", label: "Home", external: false, eventType: "footer_click" },
+const socialLinks = [
   {
-    href: "/about/",
-    label: "About",
-    external: false,
-    eventType: "footer_click",
-  },
-  {
-    href: "https://twitter.com/innovatorved",
-    label: "Twitter",
-    external: true,
+    href: "https://peerlist.io/u/innovatorved",
+    label: "Peerlist",
+    platform: "peerlist",
     eventType: "social_click",
-    platform: "twitter",
   },
   {
     href: "https://github.com/innovatorved",
     label: "GitHub",
-    external: true,
-    eventType: "social_click",
     platform: "github",
+    eventType: "social_click",
+  },
+  {
+    href: "https://twitter.com/innovatorved",
+    label: "X",
+    platform: "twitter",
+    eventType: "social_click",
+  },
+  {
+    href: "https://linkedin.com/in/innovatorved",
+    label: "LinkedIn",
+    platform: "linkedin",
+    eventType: "social_click",
   },
   {
     href: "https://status.vedgupta.in/",
     label: "Status",
-    external: true,
+    platform: "",
     eventType: "outbound_click",
   },
   {
-    href: "/resume/",
-    label: "Resume",
-    external: false,
+    href: "/rss.xml",
+    label: "RSS",
+    platform: "",
     eventType: "footer_click",
   },
 ];
 ---
 
-<footer class="mb-16">
-  <ul
-    class="font-sm mt-8 flex flex-col space-x-0 space-y-2 text-neutral-600 md:flex-row md:space-x-4 md:space-y-0 dark:text-neutral-300"
-  >
+<footer class="mt-14 pt-6 pb-10 border-t border-[var(--border)] text-center">
+  <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
     {
-      footerLinks.map(({ href, label, external, eventType, platform }) => (
-        <li>
+      socialLinks.map(({ href, label, platform, eventType }) => {
+        const external = href.startsWith("http");
+        return (
           <a
-            class="flex items-center transition-all hover:text-neutral-800 dark:hover:text-neutral-100"
             href={href}
             data-event={eventType}
             data-link-text={label}
             data-link-url={href}
-            data-platform={platform || ""}
+            data-platform={platform}
             {...(external
               ? { target: "_blank", rel: "noopener noreferrer" }
               : {})}
+            class="text-[12px] font-medium text-[var(--ink-muted)] hover:text-[var(--ink-primary)] transition-colors"
           >
             {label}
           </a>
-        </li>
-      ))
+        );
+      })
     }
-  </ul>
-  <p class="mt-8 text-neutral-600 text-xs dark:text-neutral-300">
-    © {currentYear} Ved Prakash Gupta
-  </p>
+  </div>
+
+  <div class="mt-4 flex items-center justify-center gap-2 text-[12px] text-[var(--ink-muted)]">
+    <span>© {currentYear}</span>
+    <img
+      src="/static/images/vedgupta-avatar.jpg"
+      alt=""
+      width="18"
+      height="18"
+      class="h-[18px] w-[18px] rounded-full object-cover border border-[var(--border)]"
+    />
+    <span class="text-[var(--ink-primary)] font-medium">Ved Prakash Gupta</span>
+    <span aria-hidden="true">·</span>
+    <a
+      href="mailto:me@vedgupta.in"
+      data-event="contact_email_click"
+      data-email="me@vedgupta.in"
+      class="hover:text-[var(--ink-primary)] transition-colors"
+    >
+      me@vedgupta.in
+    </a>
+  </div>
 </footer>

@@ -3,113 +3,113 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import CertificationsList from "@/components/Certifications.astro";
 import { certifications } from "@/lib/certifications";
 
-// Generate structured data for certifications
 const credentialSchema = certifications.map((cert) => ({
-    "@type": "EducationalOccupationalCredential",
-    name: cert.title,
-    credentialCategory: "Professional Certification",
-    recognizedBy: {
-        "@type": "Organization",
-        name: cert.issuer,
-    },
-    dateCreated: cert.issued,
-    url: cert.url || undefined,
-    description: cert.description,
-    competencyRequired: cert.skills?.join(", "),
+  "@type": "EducationalOccupationalCredential",
+  name: cert.title,
+  credentialCategory: "Professional Certification",
+  recognizedBy: {
+    "@type": "Organization",
+    name: cert.issuer,
+  },
+  dateCreated: cert.issued,
+  url: cert.url || undefined,
+  description: cert.description,
+  competencyRequired: cert.skills?.join(", "),
 }));
 
 const personSchema = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: "Ved Gupta",
-    alternateName: ["innovatorved", "vedgupta"],
-    url: "https://vedgupta.in",
-    sameAs: [
-        "https://github.com/innovatorved",
-        "https://linkedin.com/in/innovatorved",
-        "https://twitter.com/innovatorved",
-    ],
-    hasCredential: credentialSchema,
-    knowsAbout: [
-        "Anthropic Claude",
-        "AI Agents",
-        "Microsoft Azure",
-        "Google Cloud Platform",
-        "Cloud Engineering",
-        "Full Stack Development",
-        "Generative AI",
-        "React",
-        "Next.js",
-    ],
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Ved Gupta",
+  alternateName: ["innovatorved", "vedgupta"],
+  url: "https://vedgupta.in",
+  sameAs: [
+    "https://github.com/innovatorved",
+    "https://linkedin.com/in/innovatorved",
+    "https://twitter.com/innovatorved",
+  ],
+  hasCredential: credentialSchema,
+  knowsAbout: [
+    "Anthropic Claude",
+    "AI Agents",
+    "Microsoft Azure",
+    "Google Cloud Platform",
+    "Cloud Engineering",
+    "Full Stack Development",
+    "Generative AI",
+    "React",
+    "Next.js",
+  ],
 };
 
 const itemListSchema = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    name: "Ved Gupta Professional Certifications",
-    description:
-        "List of professional certifications earned by Ved Gupta (innovatorved)",
-    numberOfItems: certifications.length,
-    itemListElement: certifications.map((cert, index) => ({
-        "@type": "ListItem",
-        position: index + 1,
-        item: {
-            "@type": "EducationalOccupationalCredential",
-            name: cert.title,
-            credentialCategory: "Professional Certification",
-            recognizedBy: {
-                "@type": "Organization",
-                name: cert.issuer,
-            },
-            dateCreated: cert.issued,
-            url: cert.url,
-        },
-    })),
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Ved Gupta Professional Certifications",
+  description:
+    "List of professional certifications earned by Ved Gupta (innovatorved)",
+  numberOfItems: certifications.length,
+  itemListElement: certifications.map((cert, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    item: {
+      "@type": "EducationalOccupationalCredential",
+      name: cert.title,
+      credentialCategory: "Professional Certification",
+      recognizedBy: {
+        "@type": "Organization",
+        name: cert.issuer,
+      },
+      dateCreated: cert.issued,
+      url: cert.url,
+    },
+  })),
 };
 
-// Build keyword-rich description
 const certNames = certifications
-    .map((c) => c.title)
-    .slice(0, 3)
-    .join(", ");
+  .map((c) => c.title)
+  .slice(0, 3)
+  .join(", ");
 const pageDescription = `Professional certifications of Ved Gupta (innovatorved): ${certNames}, and more. Verified cloud, AI & development credentials from Anthropic, Microsoft Azure, Google Cloud, and GitHub.`;
 ---
 
 <BaseLayout
-    title="Certifications - Cloud & AI Credentials"
-    description={pageDescription}
+  title="Certifications - Cloud & AI Credentials"
+  description={pageDescription}
 >
-    <Fragment slot="head">
-        <script
-            type="application/ld+json"
-            set:html={JSON.stringify(personSchema)}
-        />
-        <script
-            type="application/ld+json"
-            set:html={JSON.stringify(itemListSchema)}
-        />
-        <meta
-            name="keywords"
-            content="Ved Gupta certifications, innovatorved certifications, vedgupta credentials, Claude Certified Developer, Anthropic certification, Azure certification, Google Cloud certification, Microsoft certified, GitHub certified, cloud engineer certification, AI fundamentals, Azure Administrator"
-        />
-    </Fragment>
+  <Fragment slot="head">
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(personSchema)}
+    />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(itemListSchema)}
+    />
+    <meta
+      name="keywords"
+      content="Ved Gupta certifications, innovatorved certifications, vedgupta credentials, Claude Certified Developer, Anthropic certification, Azure certification, Google Cloud certification, Microsoft certified, GitHub certified, cloud engineer certification, AI fundamentals, Azure Administrator"
+    />
+  </Fragment>
 
-    <section>
-        <h1
-            class="text-2xl font-bold tracking-tight mb-4 text-neutral-900 dark:text-neutral-100"
-        >
-            Certifications & Credentials
-        </h1>
-        <p
-            class="text-neutral-700 dark:text-neutral-300 mb-6 text-sm leading-relaxed"
-        >
-            A curated list of professional certifications and verified
-            credentials of <strong>Ved Gupta (innovatorved)</strong>. These
-            validate expertise across <strong>Anthropic</strong>,
-            <strong>Microsoft Azure</strong>,
-            <strong>Google Cloud Platform</strong>, full-stack development, and
-            AI tooling. Continuously expanding as I pursue more certifications.
-        </p>
-        <CertificationsList />
-    </section>
+  <section class="mt-6">
+    <div class="flex items-center justify-between gap-3 mb-2">
+      <h2 class="text-[16px] font-semibold text-[var(--ink-primary)]">
+        Certifications &amp; Credentials
+      </h2>
+      <span
+        class="text-[12px] font-medium px-2.5 py-0.5 rounded-full bg-[var(--bg-subtle)] border border-[var(--border)] text-[var(--ink-secondary)] tabular-nums"
+      >
+        {certifications.length} verified
+      </span>
+    </div>
+    <p class="text-[13px] text-[var(--ink-secondary)] leading-relaxed mb-5">
+      Verified cloud, AI, and development credentials across{" "}
+      <strong class="font-medium text-[var(--ink-primary)]">Anthropic</strong>,{" "}
+      <strong class="font-medium text-[var(--ink-primary)]">Microsoft Azure</strong>,{" "}
+      <strong class="font-medium text-[var(--ink-primary)]">Google Cloud Platform</strong>,
+      and <strong class="font-medium text-[var(--ink-primary)]">GitHub</strong>.
+    </p>
+    <CertificationsList />
+  </section>
 </BaseLayout>

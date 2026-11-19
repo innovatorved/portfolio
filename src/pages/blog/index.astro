@@ -4,11 +4,16 @@ import BlogPosts from "@/components/BlogPosts.astro";
 ---
 
 <BaseLayout
-    title="Blog"
-    description="Read my blog by Ved Gupta (innovatorved | vedgupta) on Cloud, Full Stack, and AI."
+  title="Blog"
+  description="Read my blog by Ved Gupta (innovatorved | vedgupta) on Cloud, Full Stack, and AI."
 >
-    <section>
-        <h1 class="font-semibold text-2xl mb-8 tracking-tighter">My Blog</h1>
-        <BlogPosts />
-    </section>
+  <section class="mt-6">
+    <div class="flex items-center justify-between gap-3 mb-4">
+      <h2 class="text-[16px] font-semibold text-[var(--ink-primary)]">
+        Posts
+      </h2>
+      <a href="/rss.xml" class="pl-btn">RSS Feed</a>
+    </div>
+    <BlogPosts />
+  </section>
 </BaseLayout>
