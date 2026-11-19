@@ -41,7 +41,7 @@ const projectMeta: Record<
       No projects published yet.
     </p>
   ) : (
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    <div class="flex flex-col gap-3">
       {projects.map((project) => {
         const meta = projectMeta[project.slug];
         return (
