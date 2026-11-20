@@ -27,8 +27,7 @@ contentHtml = contentHtml.replace(
   },
 );
 
-const ogImage =
-  project.image || `/og?title=${encodeURIComponent(project.title)}`;
+const ogImage = project.image || "/static/images/innovatorved-banner-2.png";
 const wordCount = (project.content || "").trim().split(/\s+/).filter(Boolean).length;
 const readingTime = Math.max(1, Math.ceil(wordCount / 220));
 ---

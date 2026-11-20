@@ -24,11 +24,10 @@
     "astro": "7.4.13",
     "aws4fetch": "^1.0.20",
     "drizzle-orm": "^0.45.4",
-    "geist": "^1.9.2",
     "marked": "^18.2.1",
     "notion-to-md": "^3.1.10",
     "tailwindcss": "^4.3.5",
-    "typescript": "^7.0.2"
+    "typescript": "^6.0.3"
   },
   "devDependencies": {
     "drizzle-kit": "^0.31.11",
