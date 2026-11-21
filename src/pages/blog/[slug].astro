@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { formatDate } from "@/lib/utils";
+import { formatDate, wrapGitSshEmailOff } from "@/lib/utils";
 import { getAllPosts } from "@/lib/db";
 import { resolvePostImages, resolveHtmlMedia } from "@/lib/images";
 import { marked } from "marked";
@@ -17,6 +17,7 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 let contentHtml = await marked.parse(post.content || "");
 contentHtml = await resolveHtmlMedia(contentHtml, post.slug, "blog");
+contentHtml = wrapGitSshEmailOff(contentHtml);
 const ogImage = post.image || "/static/images/og-cover.png";
 const wordCount = (post.content || "").trim().split(/\s+/).filter(Boolean).length;
 const readingTime = Math.max(1, Math.ceil(wordCount / 220));

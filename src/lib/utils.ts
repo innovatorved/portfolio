@@ -37,3 +37,30 @@ export function formatDate(dateInput: string | number | Date | { start: string }
         year: 'numeric',
     });
 }
+
+/**
+ * Wraps `git@github.com` SSH references in Cloudflare's `<!--email_off-->`
+ * markers so Cloudflare Email Address Obfuscation does not rewrite them into
+ * `[email protected]`.
+ */
+export function wrapGitSshEmailOff(html: string): string {
+    if (!html || !html.toLowerCase().includes('git@github.com')) {
+        return html;
+    }
+
+    return html.replace(
+        /<!--email_off-->[\s\S]*?<!--\/email_off-->|<a\b[^>]*\bhref=["']mailto:git@github\.com[^"']*["'][^>]*>[\s\S]*?<\/a>|<[^>]+>|(?:git[ \t]+clone[ \t]+)?git@github\.com(?::[^\s<>"'`]+)?/gi,
+        (match) => {
+            if (match.startsWith('<!--email_off-->')) {
+                return match;
+            }
+            if (/^<a\b/i.test(match) && /<\/a>$/i.test(match)) {
+                return `<!--email_off-->${match}<!--/email_off-->`;
+            }
+            if (match.startsWith('<')) {
+                return match;
+            }
+            return `<!--email_off-->${match}<!--/email_off-->`;
+        },
+    );
+}
