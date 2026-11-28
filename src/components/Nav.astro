@@ -199,6 +199,7 @@ const currentPath = Astro.url.pathname.endsWith("/")
             Hyderabad, India
           </span>
 
+          <Fragment set:html="<!--email_off-->" />
           <a
             href="mailto:me@vedgupta.in"
             data-event="contact_email_click"
@@ -221,6 +222,7 @@ const currentPath = Astro.url.pathname.endsWith("/")
             </svg>
             me@vedgupta.in
           </a>
+          <Fragment set:html="<!--/email_off-->" />
 
           <a
             href="https://github.com/innovatorved"

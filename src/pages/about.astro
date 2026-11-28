@@ -58,6 +58,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
       <p>
         If you're interested in discussing Cloud, Generative AI, or Full Stack
         opportunities, feel free to connect here or reach out at{" "}
+        <Fragment set:html="<!--email_off-->" />
         <a
           href="mailto:me@vedgupta.in"
           data-event="contact_email_click"
@@ -66,11 +67,13 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
         >
           me@vedgupta.in
         </a>
+        <Fragment set:html="<!--/email_off-->" />
         .
       </p>
     </div>
 
     <div class="mt-6 flex flex-wrap items-center gap-2">
+      <Fragment set:html="<!--email_off-->" />
       <a
         href="mailto:me@vedgupta.in"
         data-event="contact_email_click"
@@ -79,6 +82,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
       >
         Email me@vedgupta.in
       </a>
+      <Fragment set:html="<!--/email_off-->" />
       <a href="/projects/" class="pl-btn">Projects</a>
       <a href="/certifications/" class="pl-btn">Credentials</a>
       <a href="/resume/" class="pl-btn">Resume</a>

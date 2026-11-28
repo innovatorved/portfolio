@@ -76,6 +76,7 @@ const socialLinks = [
     />
     <span class="text-[var(--ink-primary)] font-medium">Ved Gupta</span>
     <span aria-hidden="true">·</span>
+    <Fragment set:html="<!--email_off-->" />
     <a
       href="mailto:me@vedgupta.in"
       data-event="contact_email_click"
@@ -84,5 +85,6 @@ const socialLinks = [
     >
       me@vedgupta.in
     </a>
+    <Fragment set:html="<!--/email_off-->" />
   </div>
 </footer>
