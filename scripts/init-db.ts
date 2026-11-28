@@ -131,6 +131,20 @@ async function initDB() {
         });
     }
 
+    // Prune rows that were deleted from Notion so Turso stays in sync
+    const activeIds = new Set<string>([
+        ...blogPostsList.map((p) => p.id),
+        ...projectsList.map((p) => p.id),
+    ]);
+    const existing = await client.execute('SELECT id, slug, type FROM posts');
+    for (const row of existing.rows) {
+        const id = String(row.id);
+        if (!activeIds.has(id)) {
+            console.log(`Pruning deleted Notion entry: ${row.type}/${row.slug}`);
+            await client.execute({ sql: 'DELETE FROM posts WHERE id = ?', args: [id] });
+        }
+    }
+
     console.log('Done!');
     process.exit(0);
 }

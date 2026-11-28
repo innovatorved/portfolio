@@ -51,6 +51,20 @@ export default {
 
             // 3. Fetch Page & Content
             const page = await notion.pages.retrieve({ page_id: pageId }) as any;
+
+            // If the page was archived or trashed in Notion, remove it from Turso
+            if (page.archived || page.in_trash) {
+                await client.execute({
+                    sql: 'DELETE FROM posts WHERE id = ?',
+                    args: [page.id]
+                });
+                return Response.json({
+                    success: true,
+                    message: 'Deleted archived/trashed page from Database',
+                    data: { id: page.id }
+                });
+            }
+
             const mdblocks = await n2m.pageToMarkdown(pageId);
             const mdString = n2m.toMarkdownString(mdblocks);
             const content = mdString.parent || '';
