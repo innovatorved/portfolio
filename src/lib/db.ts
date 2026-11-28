@@ -1,7 +1,7 @@
 import { drizzle } from "drizzle-orm/libsql";
 import { createClient } from "@libsql/client";
 import { posts, type Post } from "./schema";
-import { eq, and, desc } from "drizzle-orm";
+import { eq, and, desc, sql } from "drizzle-orm";
 
 const url =
   import.meta.env.TURSO_CONNECTION_URL || process.env.TURSO_CONNECTION_URL;
@@ -59,6 +59,16 @@ export async function upsertPost(post: DBPost) {
 }
 
 export async function getAllPosts(type: "blog" | "project"): Promise<DBPost[]> {
+  if (type === "project") {
+    return await db
+      .select()
+      .from(posts)
+      .where(and(eq(posts.type, type), eq(posts.status, "Published")))
+      .orderBy(
+        desc(sql`COALESCE(${posts.updatedAt}, ${posts.publishedAt})`),
+        desc(posts.publishedAt),
+      );
+  }
   return await db
     .select()
     .from(posts)
